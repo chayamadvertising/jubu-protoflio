@@ -131,13 +131,16 @@ export default function FeaturedWorkSection() {
             if (cleanUrl.endsWith('.mov')) {
               cleanUrl = cleanUrl.replace(/\.mov$/i, '.mp4');
             }
-            if (!cleanUrl || cleanUrl.includes('PASTE_SHORTS_LINK')) {
-              cleanUrl = PORTFOLIO_CONFIG.youtubeShorts[idx]?.url || `/videos/reel${idx + 1}.mp4`;
+            // If previously erroneously saved as MP4 or placeholder, restore proper YouTube link
+            if (!cleanUrl || cleanUrl.includes('PASTE_SHORTS_LINK') || cleanUrl.startsWith('/videos/')) {
+              cleanUrl = PORTFOLIO_CONFIG.youtubeShorts[idx]?.url;
             }
+            const p = parseYouTubeUrl(cleanUrl);
             return {
               ...item,
+              title: item.title && !item.title.startsWith('AI Commercial Short') ? item.title : PORTFOLIO_CONFIG.youtubeShorts[idx].title,
               url: cleanUrl,
-              thumbnail: item.thumbnail && !item.thumbnail.includes('short') ? item.thumbnail : `/reels/reel${idx + 1}.jpg`
+              thumbnail: p.isValid && p.thumbnailUrl ? p.thumbnailUrl : (PORTFOLIO_CONFIG.youtubeShorts[idx]?.thumbnail || `/shorts/short${idx + 1}.jpg`)
             };
           });
           setYoutubeShorts(sanitizedShorts);
@@ -699,18 +702,8 @@ export default function FeaturedWorkSection() {
                             <X className="w-4 h-4" />
                           </button>
 
-                          {/* 1. Direct Uploaded Video */}
-                          {isDirect ? (
-                            <video
-                              src={short.url}
-                              controls
-                              autoPlay
-                              playsInline
-                              loop
-                              className="w-full h-full object-cover rounded-2xl"
-                            />
-                          ) : parsed.isValid && parsed.embedUrl ? (
-                            /* 2. YouTube Shorts Embed without comment chrome */
+                          {/* YouTube Shorts Embed Player (Always plays YouTube Link) */}
+                          {parsed.isValid && parsed.embedUrl ? (
                             <iframe
                               src={parsed.embedUrl}
                               className="w-full h-full border-0 rounded-2xl"
@@ -719,13 +712,12 @@ export default function FeaturedWorkSection() {
                               title={short.title}
                             />
                           ) : (
-                            <video
-                              src={`/videos/reel${short.id}.mp4`}
-                              controls
-                              autoPlay
-                              playsInline
-                              loop
-                              className="w-full h-full object-cover rounded-2xl"
+                            <iframe
+                              src={`https://www.youtube-nocookie.com/embed/${parseYouTubeUrl(PORTFOLIO_CONFIG.youtubeShorts[short.id - 1]?.url).id || 'jVeBJNeT8_E'}?autoplay=1&controls=1&modestbranding=1&rel=0&playsinline=1&loop=1`}
+                              className="w-full h-full border-0 rounded-2xl"
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                              title={short.title}
                             />
                           )}
                         </div>
@@ -755,11 +747,9 @@ export default function FeaturedWorkSection() {
                               <Youtube className="w-3 h-3 text-crimson" />
                               <span>Short 0{short.id}</span>
                             </span>
-                            {isDirect && (
-                              <span className="text-[9px] font-mono text-emerald-400 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 backdrop-blur-md">
-                                MP4 Ready
-                              </span>
-                            )}
+                            <span className="text-[9px] font-mono text-crimson px-2 py-0.5 rounded-full bg-crimson/15 border border-crimson/25 backdrop-blur-md font-semibold">
+                              YouTube Short
+                            </span>
                           </div>
 
                           {/* Center: Glowing Pulse Play Button */}

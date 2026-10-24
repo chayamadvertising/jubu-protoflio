@@ -38,7 +38,7 @@ export function parseYouTubeUrl(url: string): ParsedVideo {
         type: 'youtube',
         id,
         embedUrl: `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&controls=1&modestbranding=1&rel=0&playsinline=1&loop=1`,
-        thumbnailUrl: `https://img.youtube.com/vi/${id}/maxresdefault.jpg`
+        thumbnailUrl: `https://img.youtube.com/vi/${id}/hqdefault.jpg`
       };
     }
   }

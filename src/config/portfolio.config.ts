@@ -109,34 +109,34 @@ export const PORTFOLIO_CONFIG: PortfolioConfigType = {
   youtubeShorts: [
     {
       id: 1,
-      title: "AI Commercial Short 01",
-      url: "/videos/reel1.mp4",
-      thumbnail: "/reels/reel1.jpg"
+      title: "Save The Date // AI Commercial Short",
+      url: "https://www.youtube.com/shorts/jVeBJNeT8_E",
+      thumbnail: "https://img.youtube.com/vi/jVeBJNeT8_E/hqdefault.jpg"
     },
     {
       id: 2,
-      title: "AI Commercial Short 02",
-      url: "/videos/reel2.mp4",
-      thumbnail: "/reels/reel2.jpg"
+      title: "One // Cinematic AI Concept Short",
+      url: "https://www.youtube.com/shorts/ApRwKrXGppc",
+      thumbnail: "https://img.youtube.com/vi/ApRwKrXGppc/hqdefault.jpg"
     },
     {
       id: 3,
-      title: "Brand Story Commercial 03",
-      url: "/videos/reel3.mp4",
-      thumbnail: "/reels/reel3.jpg"
+      title: "AI Commercial Ad Reel // Multi-Shot",
+      url: "https://www.youtube.com/shorts/Ym0ORXsEi1c",
+      thumbnail: "https://img.youtube.com/vi/Ym0ORXsEi1c/hqdefault.jpg"
     },
     {
       id: 4,
-      title: "AI Commercial Short 04",
-      url: "/videos/reel4.mp4",
-      thumbnail: "/reels/reel4.jpg"
+      title: "Chayam // Commercial Production Short",
+      url: "https://www.youtube.com/shorts/A3sLMPTHW_E",
+      thumbnail: "https://img.youtube.com/vi/A3sLMPTHW_E/hqdefault.jpg"
     }
   ],
   youtubeVideos: [
-    { id: 1, title: "AI Video Showreel", url: "/videos/reel1.mp4" },
-    { id: 2, title: "Multi-Shot Ad Breakdown", url: "/videos/reel2.mp4" },
-    { id: 3, title: "Meta Ads Video Funnel", url: "/videos/reel3.mp4" },
-    { id: 4, title: "Multilingual Commercial", url: "/videos/reel4.mp4" }
+    { id: 1, title: "Save The Date // AI Commercial Short", url: "https://www.youtube.com/shorts/jVeBJNeT8_E" },
+    { id: 2, title: "One // Cinematic AI Concept Short", url: "https://www.youtube.com/shorts/ApRwKrXGppc" },
+    { id: 3, title: "AI Commercial Ad Reel // Multi-Shot", url: "https://www.youtube.com/shorts/Ym0ORXsEi1c" },
+    { id: 4, title: "Chayam // Commercial Production Short", url: "https://www.youtube.com/shorts/A3sLMPTHW_E" }
   ],
   commercialDesigns: [
     {
