@@ -296,37 +296,37 @@ export default function ToolkitSection() {
         {/* ================================================================
             INTERACTIVE TOOL CONTAINERS WITH MATCHING POSITION LOGOS AT TOP
             ================================================================ */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
           {TOOLS_DATA.map((tool, idx) => (
             <motion.div
               key={tool.id}
-              initial={{ opacity: 0, y: 25, scale: 0.98 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.15 }}
-              transition={{ duration: 0.65, delay: (idx % 4) * 0.08, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.5, delay: (idx % 4) * 0.05, ease: [0.16, 1, 0.3, 1] }}
               onClick={() => setSelectedTool(tool)}
-              className={`p-4 sm:p-5 rounded-2xl bg-[#111115] border border-white/10 hover:border-crimson/60 cursor-pointer transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[0_12px_28px_rgba(220,38,38,0.2)] flex flex-col justify-between group relative overflow-hidden ${tool.floatClass}`}
+              className={`p-3.5 sm:p-5 rounded-2xl bg-[#111115] border border-white/10 hover:border-crimson/60 cursor-pointer transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[0_12px_28px_rgba(220,38,38,0.2)] flex flex-col justify-between group relative overflow-hidden ${tool.floatClass}`}
             >
               {/* Subtle Ambient Hover Glow */}
-              <div className="absolute top-0 right-0 w-24 h-24 bg-crimson/5 rounded-bl-full pointer-events-none group-hover:bg-crimson/15 transition-colors" />
+              <div className="absolute top-0 right-0 w-20 sm:w-24 h-20 sm:h-24 bg-crimson/5 rounded-bl-full pointer-events-none group-hover:bg-crimson/15 transition-colors" />
 
-              <div>
-                {/* TOP MATCHING POSITION: Brand Logo + Verified Badge */}
-                <div className="flex items-center justify-between gap-2 mb-4">
+              <div className="w-full overflow-hidden">
+                {/* TOP MATCHING POSITION: Brand Logo + Verified Badge (Clean, Never Overflows) */}
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-3 sm:mb-4">
                   {/* High-Contrast Logo Container */}
-                  <div className="w-14 h-14 rounded-2xl bg-black/80 border border-white/15 flex items-center justify-center p-2.5 group-hover:scale-105 group-hover:border-crimson/50 transition-all duration-300 shadow-inner shrink-0">
+                  <div className="w-11 h-11 sm:w-13 sm:h-13 md:w-14 md:h-14 rounded-xl sm:rounded-2xl bg-black/80 border border-white/15 flex items-center justify-center p-2 sm:p-2.5 group-hover:scale-105 group-hover:border-crimson/50 transition-all duration-300 shadow-inner shrink-0">
                     {tool.imageSrc ? (
                       <div className="relative w-full h-full flex items-center justify-center">
                         <Image
                           src={tool.imageSrc}
                           alt={tool.name}
-                          width={44}
-                          height={44}
+                          width={40}
+                          height={40}
                           className="object-contain max-h-full max-w-full filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]"
                         />
                       </div>
                     ) : (
-                      <div className="flex items-center justify-center w-full h-full">
+                      <div className="flex items-center justify-center w-full h-full [&>svg]:w-6 [&>svg]:h-6 sm:[&>svg]:w-8 sm:[&>svg]:h-8">
                         {tool.customIcon}
                       </div>
                     )}
@@ -334,28 +334,28 @@ export default function ToolkitSection() {
 
                   {/* Verified Badge */}
                   {tool.badge && (
-                    <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-white/5 text-metallic border border-white/10 group-hover:text-crimson group-hover:border-crimson/30 transition-colors shrink-0 text-right">
+                    <span className="self-start sm:self-auto text-[8px] sm:text-[9px] font-mono px-2 py-0.5 rounded bg-white/5 text-metallic border border-white/10 group-hover:text-crimson group-hover:border-crimson/30 transition-colors truncate max-w-full">
                       {tool.badge}
                     </span>
                   )}
                 </div>
 
                 {/* Tool Name & Role */}
-                <h4 className="font-display font-bold text-sm sm:text-base text-white group-hover:text-crimson transition-colors line-clamp-1">
+                <h4 className="font-display font-bold text-xs sm:text-base text-white group-hover:text-crimson transition-colors line-clamp-1 break-words">
                   {tool.name}
                 </h4>
-                <p className="text-[11px] sm:text-xs text-metallic mt-1 line-clamp-1">
+                <p className="text-[10px] sm:text-xs text-metallic mt-1 line-clamp-2 break-words leading-tight sm:leading-normal">
                   {tool.role}
                 </p>
-                <div className="text-[10px] font-mono text-crimson/80 mt-1">
+                <div className="text-[9px] sm:text-[10px] font-mono text-crimson/80 mt-1 truncate">
                   {tool.category}
                 </div>
               </div>
 
               {/* Bottom Card Footer */}
-              <div className="pt-3 mt-4 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-crimson">
-                <span>View Breakdown</span>
-                <ChevronDown className="w-3.5 h-3.5 group-hover:translate-y-0.5 transition-transform" />
+              <div className="pt-2.5 sm:pt-3 mt-3 sm:mt-4 border-t border-white/5 flex items-center justify-between text-[10px] sm:text-[11px] font-mono text-crimson">
+                <span className="truncate">View Breakdown</span>
+                <ChevronDown className="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 group-hover:translate-y-0.5 transition-transform" />
               </div>
             </motion.div>
           ))}

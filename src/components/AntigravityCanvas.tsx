@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface Particle {
   x: number;
@@ -16,8 +16,19 @@ interface Particle {
 
 export default function AntigravityCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
+    // Strictly execute particles animation on Desktop screens (1024px+) ONLY
+    if (typeof window === 'undefined') return;
+    
+    if (window.innerWidth < 1024) {
+      setIsDesktop(false);
+      return;
+    }
+    
+    setIsDesktop(true);
+
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -29,6 +40,12 @@ export default function AntigravityCanvas() {
 
     const handleResize = () => {
       if (!canvas) return;
+      if (window.innerWidth < 1024) {
+        setIsDesktop(false);
+        cancelAnimationFrame(animationFrameId);
+        return;
+      }
+      setIsDesktop(true);
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
     };
@@ -48,8 +65,8 @@ export default function AntigravityCanvas() {
       y: Math.random() * height,
       radius: Math.random() * 1.8 + 0.6,
       color: colors[Math.floor(Math.random() * colors.length)],
-      vy: -(Math.random() * 0.45 + 0.15), // Slow upward antigravity drift
-      vx: (Math.random() - 0.5) * 0.25,   // Gentle lateral float
+      vy: -(Math.random() * 0.45 + 0.15),
+      vx: (Math.random() - 0.5) * 0.25,
       alpha: Math.random() * 0.4 + 0.1,
       baseAlpha: Math.random() * 0.35 + 0.15,
       phase: Math.random() * Math.PI * 2,
@@ -65,12 +82,10 @@ export default function AntigravityCanvas() {
         p.y += p.vy;
         p.x += Math.sin(time + p.phase) * 0.35 + p.vx;
 
-        // Wrap around vertically & horizontally
         if (p.y < -10) p.y = height + 10;
         if (p.x < -10) p.x = width + 10;
         if (p.x > width + 10) p.x = -10;
 
-        // Subtle alpha pulsation
         const currentAlpha = p.baseAlpha + Math.sin(time * 2 + p.phase) * 0.1;
 
         ctx.beginPath();
@@ -92,10 +107,12 @@ export default function AntigravityCanvas() {
     };
   }, []);
 
+  if (!isDesktop) return null;
+
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-[1] opacity-70"
+      className="hidden lg:block fixed inset-0 pointer-events-none z-[1] opacity-70"
       aria-hidden="true"
     />
   );

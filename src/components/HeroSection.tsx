@@ -35,9 +35,9 @@ export default function HeroSection() {
           className="w-full flex justify-center"
         >
           <h1
-            className="font-display font-extrabold uppercase text-crimson tracking-normal leading-none whitespace-nowrap drop-shadow-[0_0_35px_rgba(220,38,38,0.35)] flex items-center justify-center gap-2 sm:gap-3"
+            className="font-display font-extrabold uppercase text-crimson tracking-normal leading-none drop-shadow-[0_0_35px_rgba(220,38,38,0.35)] flex flex-wrap sm:flex-nowrap items-center justify-center gap-2 sm:gap-3"
             style={{
-              fontSize: 'clamp(1.4rem, 5.2vw, 4.5rem)',
+              fontSize: 'clamp(1.2rem, 5.2vw, 4.5rem)',
             }}
           >
             {['MUHAMMED', 'JUBAIR', 'T'].map((word, wIdx) => (

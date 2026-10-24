@@ -168,13 +168,13 @@ export default function SocialPlatformsSection() {
               className={`relative rounded-3xl bg-[#0E0E12] border border-white/10 ${platform.bgHover} transition-all duration-300 p-5 sm:p-6 flex flex-col justify-between group hover:-translate-y-1.5 cursor-pointer block shadow-lg`}
             >
               <div>
-                {/* Top Row: Icon + Badge */}
-                <div className="flex items-center justify-between mb-5">
-                  <div className="w-14 h-14 rounded-2xl bg-black/80 border border-white/10 flex items-center justify-center p-3 group-hover:scale-105 transition-transform duration-300 shadow-inner">
+                {/* Top Row: Icon + Badge (Responsive) */}
+                <div className="flex items-center justify-between gap-2 mb-4 sm:mb-5">
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-black/80 border border-white/10 flex items-center justify-center p-2.5 sm:p-3 group-hover:scale-105 transition-transform duration-300 shadow-inner shrink-0">
                     {platform.icon}
                   </div>
 
-                  <span className="text-[10px] font-mono font-bold px-2.5 py-1 rounded-full bg-white/5 text-white/80 border border-white/10 group-hover:border-white/20 transition-colors">
+                  <span className="text-[9px] sm:text-[10px] font-mono font-bold px-2.5 py-1 rounded-full bg-white/5 text-white/80 border border-white/10 group-hover:border-white/20 transition-colors truncate max-w-[140px] text-right">
                     {platform.badge}
                   </span>
                 </div>

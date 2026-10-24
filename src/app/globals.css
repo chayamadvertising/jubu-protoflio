@@ -177,12 +177,27 @@
   }
 }
 
-/* Antigravity Floating Animation - STRICTLY ON DESKTOP (min-width: 1024px) ONLY */
+.text-crimson-shimmer {
+  background: linear-gradient(
+    90deg,
+    #DC2626 0%,
+    #EF4444 35%,
+    #FFFFFF 50%,
+    #EF4444 65%,
+    #DC2626 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: none;
+}
+
+/* Antigravity Floating & Shimmer Animation - STRICTLY ON DESKTOP (min-width: 1024px) ONLY */
 .antigravity-float-1,
 .antigravity-float-2,
 .antigravity-float-slow {
   animation: none !important;
-  transform: none;
+  transform: none !important;
 }
 
 @media (min-width: 1024px) {
@@ -203,19 +218,18 @@
     will-change: transform;
     transform-style: preserve-3d;
   }
+
+  .text-crimson-shimmer {
+    animation: crimsonShimmer 6s ease-in-out infinite !important;
+  }
 }
 
-.text-crimson-shimmer {
-  background: linear-gradient(
-    90deg,
-    #DC2626 0%,
-    #EF4444 35%,
-    #FFFFFF 50%,
-    #EF4444 65%,
-    #DC2626 100%
-  );
-  background-size: 200% 100%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: crimsonShimmer 6s ease-in-out infinite;
+@media (max-width: 1023px) {
+  .antigravity-float-1,
+  .antigravity-float-2,
+  .antigravity-float-slow,
+  .text-crimson-shimmer {
+    animation: none !important;
+    transform: none !important;
+  }
 }
