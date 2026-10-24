@@ -45,7 +45,7 @@ export default function Navbar() {
             aria-label="Muhammed Jubair T Protofolio"
           >
             <span className="font-display font-extrabold text-xl sm:text-2xl tracking-wider text-crimson group-hover:text-crimson-bright transition-colors">
-              PROTOFOLIO.
+              PROTOFOLIO
             </span>
           </a>
 

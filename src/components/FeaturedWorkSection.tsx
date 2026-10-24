@@ -125,7 +125,25 @@ export default function FeaturedWorkSection() {
         } else {
           setYoutubeChannelUrl(PORTFOLIO_CONFIG.youtubeChannelUrl);
         }
-        if (Array.isArray(parsed.youtubeShorts) && parsed.youtubeShorts.length === 4) setYoutubeShorts(parsed.youtubeShorts);
+        if (Array.isArray(parsed.youtubeShorts) && parsed.youtubeShorts.length === 4) {
+          const sanitizedShorts = parsed.youtubeShorts.map((item: any, idx: number) => {
+            let cleanUrl = item.url || '';
+            if (cleanUrl.endsWith('.mov')) {
+              cleanUrl = cleanUrl.replace(/\.mov$/i, '.mp4');
+            }
+            if (!cleanUrl || cleanUrl.includes('PASTE_SHORTS_LINK')) {
+              cleanUrl = PORTFOLIO_CONFIG.youtubeShorts[idx]?.url || `/videos/reel${idx + 1}.mp4`;
+            }
+            return {
+              ...item,
+              url: cleanUrl,
+              thumbnail: item.thumbnail && !item.thumbnail.includes('short') ? item.thumbnail : `/reels/reel${idx + 1}.jpg`
+            };
+          });
+          setYoutubeShorts(sanitizedShorts);
+        } else {
+          setYoutubeShorts(PORTFOLIO_CONFIG.youtubeShorts);
+        }
         if (parsed.googleDriveUrl && parsed.googleDriveUrl !== 'https://drive.google.com/') {
           setGoogleDriveUrl(parsed.googleDriveUrl);
         } else {
@@ -539,31 +557,21 @@ export default function FeaturedWorkSection() {
                               />
                             </div>
                           ) : (
-                            <div className="h-full flex flex-col items-center justify-center p-6 text-center space-y-3">
-                              <span className="text-xs font-mono text-crimson font-bold">
-                                No Video Configured Yet
-                              </span>
-                              <p className="text-[11px] text-metallic">
-                                Click &quot;Admin: Locked [Edit &amp; Upload]&quot; to upload your video MP4 file or paste your reel URL.
-                              </p>
-                              <button
-                                onClick={() => setPlayingReelId(null)}
-                                className="px-4 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-mono"
-                              >
-                                Close
-                              </button>
-                            </div>
+                            <video
+                              src={`/videos/reel${reel.id}.mp4`}
+                              controls
+                              autoPlay
+                              playsInline
+                              loop
+                              className="w-full h-full object-cover rounded-2xl"
+                            />
                           )}
                         </div>
                       ) : (
                         /* Front Face: Pure Video Starting Frame Visual with Sleek Play Button (NO TEXT CLUTTER) */
                         <div
                           onClick={() => {
-                            if (isDirect || parsed.isValid) {
-                              setPlayingReelId(reel.id);
-                            } else {
-                              handleOpenAdmin();
-                            }
+                            setPlayingReelId(reel.id);
                           }}
                           className="h-full w-full relative flex flex-col justify-between p-4 cursor-pointer overflow-hidden rounded-2xl group/card"
                         >
@@ -711,31 +719,21 @@ export default function FeaturedWorkSection() {
                               title={short.title}
                             />
                           ) : (
-                            <div className="h-full flex flex-col items-center justify-center p-6 text-center space-y-3">
-                              <span className="text-xs font-mono text-crimson font-bold">
-                                No Video Configured Yet
-                              </span>
-                              <p className="text-[11px] text-metallic">
-                                Click &quot;Admin: Locked [Edit &amp; Upload]&quot; to upload your video MP4 file or paste your YouTube Short URL.
-                              </p>
-                              <button
-                                onClick={() => setPlayingShortId(null)}
-                                className="px-4 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-mono"
-                              >
-                                Close
-                              </button>
-                            </div>
+                            <video
+                              src={`/videos/reel${short.id}.mp4`}
+                              controls
+                              autoPlay
+                              playsInline
+                              loop
+                              className="w-full h-full object-cover rounded-2xl"
+                            />
                           )}
                         </div>
                       ) : (
                         /* Front Face: Exact Short Video Preview with Dedicated Template Visual */
                         <div
                           onClick={() => {
-                            if (isDirect || parsed.isValid) {
-                              setPlayingShortId(short.id);
-                            } else {
-                              handleOpenAdmin();
-                            }
+                            setPlayingShortId(short.id);
                           }}
                           className="h-full w-full relative flex flex-col justify-between p-4 cursor-pointer overflow-hidden rounded-2xl"
                         >

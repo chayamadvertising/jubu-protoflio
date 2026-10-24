@@ -109,34 +109,34 @@ export const PORTFOLIO_CONFIG: PortfolioConfigType = {
   youtubeShorts: [
     {
       id: 1,
-      title: "Cinematic AI Short",
-      url: "PASTE_SHORTS_LINK_1",
-      thumbnail: "/shorts/short1.jpg"
+      title: "AI Commercial Short 01",
+      url: "/videos/reel1.mp4",
+      thumbnail: "/reels/reel1.jpg"
     },
     {
       id: 2,
-      title: "Director Prompt Breakdown",
-      url: "PASTE_SHORTS_LINK_2",
-      thumbnail: "/shorts/short2.jpg"
+      title: "AI Commercial Short 02",
+      url: "/videos/reel2.mp4",
+      thumbnail: "/reels/reel2.jpg"
     },
     {
       id: 3,
-      title: "Meta Ads Hook Testing",
-      url: "PASTE_SHORTS_LINK_3",
-      thumbnail: "/shorts/short3.jpg"
+      title: "Brand Story Commercial 03",
+      url: "/videos/reel3.mp4",
+      thumbnail: "/reels/reel3.jpg"
     },
     {
       id: 4,
-      title: "Multilingual VO Sync",
-      url: "PASTE_SHORTS_LINK_4",
-      thumbnail: "/shorts/short4.jpg"
+      title: "AI Commercial Short 04",
+      url: "/videos/reel4.mp4",
+      thumbnail: "/reels/reel4.jpg"
     }
   ],
   youtubeVideos: [
-    { id: 1, title: "AI Video Showreel", url: "PASTE_YOUTUBE_LINK_1" },
-    { id: 2, title: "Multi-Shot Ad Breakdown", url: "PASTE_YOUTUBE_LINK_2" },
-    { id: 3, title: "Meta Ads Video Funnel", url: "PASTE_YOUTUBE_LINK_3" },
-    { id: 4, title: "Multilingual Commercial", url: "PASTE_YOUTUBE_LINK_4" }
+    { id: 1, title: "AI Video Showreel", url: "/videos/reel1.mp4" },
+    { id: 2, title: "Multi-Shot Ad Breakdown", url: "/videos/reel2.mp4" },
+    { id: 3, title: "Meta Ads Video Funnel", url: "/videos/reel3.mp4" },
+    { id: 4, title: "Multilingual Commercial", url: "/videos/reel4.mp4" }
   ],
   commercialDesigns: [
     {
