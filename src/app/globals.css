@@ -201,15 +201,26 @@
 }
 
 @media (min-width: 1024px) {
-  .antigravity-float-1,
-  .antigravity-float-2,
+  .antigravity-float-1 {
+    animation: antiGravityFloat1 6s ease-in-out infinite !important;
+    will-change: transform;
+    transform-style: preserve-3d;
+  }
+
+  .antigravity-float-2 {
+    animation: antiGravityFloat2 8s ease-in-out infinite !important;
+    will-change: transform;
+    transform-style: preserve-3d;
+  }
+
   .antigravity-float-slow {
-    animation: none !important;
-    transform: none !important;
+    animation: antiGravityFloatSlow 7s ease-in-out infinite !important;
+    will-change: transform;
+    transform-style: preserve-3d;
   }
 
   .text-crimson-shimmer {
-    animation: crimsonShimmer 8s ease-in-out infinite !important;
+    animation: crimsonShimmer 6s ease-in-out infinite !important;
   }
 }
 

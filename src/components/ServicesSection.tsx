@@ -89,7 +89,7 @@ export default function ServicesSection() {
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.45, delay: idx * 0.08, ease: 'easeOut' }}
+                transition={{ duration: 0.5, ease: 'easeOut' }}
                 className="p-5 sm:p-6 rounded-2xl bg-[#111115] border border-white/10 hover:border-crimson/50 hover:shadow-[0_8px_30px_rgba(220,38,38,0.12)] transition-all duration-300 group hover:-translate-y-0.5"
               >
                 <div className="flex items-start gap-4">

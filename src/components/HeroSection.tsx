@@ -29,32 +29,20 @@ export default function HeroSection() {
         
         {/* Full Name on ONE SINGLE LINE with Staggered Cinematic Keyframe Reveal */}
         <motion.div
-          initial={{ opacity: 0, y: 30, filter: 'blur(8px)' }}
-          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-          transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1] }}
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
           className="w-full flex justify-center"
         >
           <h1
-            className="font-display font-extrabold uppercase text-crimson tracking-normal leading-none drop-shadow-[0_0_35px_rgba(220,38,38,0.35)] flex flex-wrap sm:flex-nowrap items-center justify-center gap-2 sm:gap-3"
+            className="font-display font-extrabold uppercase tracking-normal leading-none drop-shadow-[0_0_35px_rgba(220,38,38,0.35)] flex flex-wrap sm:flex-nowrap items-center justify-center gap-2 sm:gap-3"
             style={{
               fontSize: 'clamp(1.2rem, 5.2vw, 4.5rem)',
             }}
           >
-            {['MUHAMMED', 'JUBAIR', 'T'].map((word, wIdx) => (
-              <motion.span
-                key={wIdx}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: 0.7,
-                  delay: 0.1 + wIdx * 0.08,
-                  ease: 'easeOut',
-                }}
-                className={wIdx === 1 ? 'text-white drop-shadow-[0_0_40px_rgba(255,255,255,0.4)]' : 'text-crimson'}
-              >
-                {word}
-              </motion.span>
-            ))}
+            <span className="text-crimson">MUHAMMED</span>{" "}
+            <span className="text-white drop-shadow-[0_0_40px_rgba(255,255,255,0.4)]">JUBAIR</span>{" "}
+            <span className="text-crimson">T</span>
           </h1>
         </motion.div>
 
@@ -97,7 +85,7 @@ export default function HeroSection() {
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.6, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 className="flex items-center gap-3 p-3.5 rounded-2xl bg-[#111115]/90 border border-white/10 hover:border-crimson/40 transition-colors shadow-sm"
               >
                 <div className="w-8 h-8 rounded-xl bg-crimson/15 border border-crimson/25 flex items-center justify-center shrink-0">

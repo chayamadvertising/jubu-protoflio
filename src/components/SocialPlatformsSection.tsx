@@ -164,7 +164,7 @@ export default function SocialPlatformsSection() {
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: idx * 0.06, ease: 'easeOut' }}
+              transition={{ duration: 0.5, ease: 'easeOut' }}
               className={`relative rounded-3xl bg-[#0E0E12] border border-white/10 ${platform.bgHover} transition-all duration-300 p-5 sm:p-6 flex flex-col justify-between group hover:-translate-y-1.5 cursor-pointer block shadow-lg`}
             >
               <div>

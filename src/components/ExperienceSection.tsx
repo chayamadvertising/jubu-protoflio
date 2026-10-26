@@ -198,7 +198,7 @@ export default function ExperienceSection() {
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.1, ease: 'easeOut' }}
+              transition={{ duration: 0.5, ease: 'easeOut' }}
               className="p-6 sm:p-7 rounded-2xl bg-[#111115] border border-white/10 hover:border-crimson/40 transition-colors space-y-5 shadow-sm"
             >
               <div className="flex items-center gap-3 pb-3 border-b border-white/5">
