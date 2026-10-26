@@ -68,10 +68,10 @@ export default function ExperienceSection() {
           
           {/* Left Column (Col 5): Seated Executive Portrait + About Me + Languages + Core Skills */}
           <motion.div
-            initial={{ opacity: 0, x: -35, y: 20 }}
-            whileInView={{ opacity: 1, x: 0, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
             className="lg:col-span-5 space-y-6"
           >
             {/* Seated Executive Photo */}
@@ -157,10 +157,10 @@ export default function ExperienceSection() {
             
             {/* Experience Block (All 5 Bullets from CV) */}
             <motion.div
-              initial={{ opacity: 0, x: 35, y: 20 }}
-              whileInView={{ opacity: 1, x: 0, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
               className="p-6 sm:p-7 rounded-2xl bg-[#111115] border border-white/10 hover:border-crimson/40 transition-colors space-y-5 shadow-sm"
             >
               <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
@@ -195,10 +195,10 @@ export default function ExperienceSection() {
 
             {/* Education & Certifications Block */}
             <motion.div
-              initial={{ opacity: 0, x: 35, y: 20 }}
-              whileInView={{ opacity: 1, x: 0, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.85, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1, ease: 'easeOut' }}
               className="p-6 sm:p-7 rounded-2xl bg-[#111115] border border-white/10 hover:border-crimson/40 transition-colors space-y-5 shadow-sm"
             >
               <div className="flex items-center gap-3 pb-3 border-b border-white/5">

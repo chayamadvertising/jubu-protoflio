@@ -161,10 +161,10 @@ export default function SocialPlatformsSection() {
               href={platform.url}
               target="_blank"
               rel="noopener noreferrer"
-              initial={{ opacity: 0, y: 25 }}
+              initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.15 }}
-              transition={{ duration: 0.5, delay: idx * 0.08, ease: [0.16, 1, 0.3, 1] }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: idx * 0.06, ease: 'easeOut' }}
               className={`relative rounded-3xl bg-[#0E0E12] border border-white/10 ${platform.bgHover} transition-all duration-300 p-5 sm:p-6 flex flex-col justify-between group hover:-translate-y-1.5 cursor-pointer block shadow-lg`}
             >
               <div>

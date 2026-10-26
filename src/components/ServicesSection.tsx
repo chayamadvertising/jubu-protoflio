@@ -58,10 +58,10 @@ export default function ServicesSection() {
           
           {/* LEFT SIDE: Portrait + 2-Sentence About Summary - Trigger once on scroll down */}
           <motion.div
-            initial={{ opacity: 0, x: -35, y: 20 }}
-            whileInView={{ opacity: 1, x: 0, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
             className="lg:col-span-5 space-y-6"
           >
             <div className="relative w-full h-[380px] sm:h-[440px] rounded-3xl overflow-hidden bg-[#111115] border border-white/10 group shadow-lg">
@@ -86,10 +86,10 @@ export default function ServicesSection() {
             {SERVICES_DATA.map((service, idx) => (
               <motion.div
                 key={service.num}
-                initial={{ opacity: 0, x: 35, y: 15 }}
-                whileInView={{ opacity: 1, x: 0, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.75, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, delay: idx * 0.08, ease: 'easeOut' }}
                 className="p-5 sm:p-6 rounded-2xl bg-[#111115] border border-white/10 hover:border-crimson/50 hover:shadow-[0_8px_30px_rgba(220,38,38,0.12)] transition-all duration-300 group hover:-translate-y-0.5"
               >
                 <div className="flex items-start gap-4">

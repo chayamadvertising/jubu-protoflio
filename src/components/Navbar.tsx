@@ -38,16 +38,8 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           
-          {/* Left: Bold Logo "PROTOFOLIO" in Crimson Red */}
-          <a
-            href="#"
-            className="group flex items-center gap-2.5 focus:outline-none"
-            aria-label="Muhammed Jubair T Protofolio"
-          >
-            <span className="font-display font-extrabold text-xl sm:text-2xl tracking-wider text-crimson group-hover:text-crimson-bright transition-colors">
-              PROTOFOLIO
-            </span>
-          </a>
+          {/* Left side spacer - PROTOFOLIO title removed as requested */}
+          <div className="w-8" />
 
           {/* Center Links (Desktop) */}
           <nav className="hidden md:flex items-center space-x-1 lg:space-x-2 px-5 py-2 rounded-full bg-[#111115]/90 border border-white/10 backdrop-blur-md">

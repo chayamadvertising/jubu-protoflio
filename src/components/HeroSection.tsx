@@ -43,12 +43,12 @@ export default function HeroSection() {
             {['MUHAMMED', 'JUBAIR', 'T'].map((word, wIdx) => (
               <motion.span
                 key={wIdx}
-                initial={{ opacity: 0, y: 35, rotateX: 30 }}
-                animate={{ opacity: 1, y: 0, rotateX: 0 }}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{
-                  duration: 0.85,
-                  delay: 0.15 + wIdx * 0.12,
-                  ease: [0.16, 1, 0.3, 1],
+                  duration: 0.7,
+                  delay: 0.1 + wIdx * 0.08,
+                  ease: 'easeOut',
                 }}
                 className={wIdx === 1 ? 'text-white drop-shadow-[0_0_40px_rgba(255,255,255,0.4)]' : 'text-crimson'}
               >
@@ -77,11 +77,11 @@ export default function HeroSection() {
           
           {/* LEFT STAT PILLS (Col 3) - Trigger once on scroll down */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-3 pb-8 sm:pb-12 space-y-3 order-2 lg:order-1 antigravity-float-1"
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+            className="lg:col-span-3 pb-8 sm:pb-12 space-y-3 order-2 lg:order-1"
           >
             <span className="text-[10px] font-mono tracking-widest uppercase text-crimson font-bold block mb-2">
               KEY HIGHLIGHTS //
@@ -137,11 +137,11 @@ export default function HeroSection() {
 
           {/* RIGHT ACTION BLOCK (Col 3) - Trigger once on scroll down */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-3 pb-8 sm:pb-12 space-y-3.5 order-3 lg:order-3 antigravity-float-2 "
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+            className="lg:col-span-3 pb-8 sm:pb-12 space-y-3.5 order-3 lg:order-3"
           >
             <span className="text-[10px] font-mono tracking-widest uppercase text-crimson font-bold block mb-2">
               CONNECT &amp; HIRE //

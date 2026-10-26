@@ -300,12 +300,12 @@ export default function ToolkitSection() {
           {TOOLS_DATA.map((tool, idx) => (
             <motion.div
               key={tool.id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 8 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.15 }}
-              transition={{ duration: 0.5, delay: (idx % 4) * 0.05, ease: [0.16, 1, 0.3, 1] }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.35, delay: (idx % 4) * 0.04, ease: 'easeOut' }}
               onClick={() => setSelectedTool(tool)}
-              className={`p-3.5 sm:p-5 rounded-2xl bg-[#111115] border border-white/10 hover:border-crimson/60 cursor-pointer transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[0_12px_28px_rgba(220,38,38,0.2)] flex flex-col justify-between group relative overflow-hidden ${tool.floatClass}`}
+              className="p-3.5 sm:p-5 rounded-2xl bg-[#111115] border border-white/10 hover:border-crimson/60 cursor-pointer transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(220,38,38,0.2)] flex flex-col justify-between group relative overflow-hidden"
             >
               {/* Subtle Ambient Hover Glow */}
               <div className="absolute top-0 right-0 w-20 sm:w-24 h-20 sm:h-24 bg-crimson/5 rounded-bl-full pointer-events-none group-hover:bg-crimson/15 transition-colors" />
