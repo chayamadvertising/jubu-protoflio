@@ -4,7 +4,7 @@ import React, { useRef } from 'react';
 import Image from 'next/image';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { PORTFOLIO_CONFIG } from '@/config/portfolio.config';
-import { ArrowUpRight, MessageSquare, CheckCircle2, Video, Globe, TrendingUp } from 'lucide-react';
+import { ArrowUpRight, MessageSquare, Video, Globe, TrendingUp } from 'lucide-react';
 
 export default function HeroSection() {
   const containerRef = useRef<HTMLElement>(null);
@@ -27,9 +27,9 @@ export default function HeroSection() {
           ================================================================ */}
       <div className="relative z-10 w-full max-w-5xl mx-auto px-4 text-center space-y-3 mb-6 sm:mb-8">
         
-        {/* Full Name on ONE SINGLE LINE with Staggered Cinematic Keyframe Reveal */}
+        {/* Full Name on ONE SINGLE LINE with Smooth Bottom-to-Top Keyframe Reveal */}
         <motion.div
-          initial={{ opacity: 0, y: 14 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
           className="w-full flex justify-center"
@@ -48,9 +48,9 @@ export default function HeroSection() {
 
         {/* Crisp Subtitle */}
         <motion.p
-          initial={{ opacity: 0, y: 15 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.85, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.75, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
           className="text-xs sm:text-sm md:text-base font-medium text-white tracking-wide max-w-3xl mx-auto"
         >
           AI Video Producer <span className="text-crimson mx-1.5">•</span> Digital Marketing &amp; Meta Ads Specialist <span className="text-crimson mx-1.5">•</span> Prompt Engineer
@@ -63,12 +63,12 @@ export default function HeroSection() {
       <div className="relative z-20 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex-1 flex flex-col justify-end">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end relative min-h-[500px] sm:min-h-[560px] md:min-h-[600px]">
           
-          {/* LEFT STAT PILLS (Col 3) - Trigger once on scroll down */}
+          {/* LEFT STAT PILLS (Col 3) - Smooth bottom-to-top keyframe */}
           <motion.div
-            initial={{ opacity: 0, y: 14 }}
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: 'easeOut' }}
+            viewport={{ once: true, amount: 0.12 }}
+            transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-3 pb-8 sm:pb-12 space-y-3 order-2 lg:order-1"
           >
             <span className="text-[10px] font-mono tracking-widest uppercase text-crimson font-bold block mb-2">
@@ -80,12 +80,8 @@ export default function HeroSection() {
               { text: 'Multilingual Ad Production', icon: <Globe className="w-4 h-4 text-crimson" /> },
               { text: 'Meta Ads & Lead Generation', icon: <TrendingUp className="w-4 h-4 text-crimson" /> },
             ].map((pill, idx) => (
-              <motion.div
+              <div
                 key={idx}
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 className="flex items-center gap-3 p-3.5 rounded-2xl bg-[#111115]/90 border border-white/10 hover:border-crimson/40 transition-colors shadow-sm"
               >
                 <div className="w-8 h-8 rounded-xl bg-crimson/15 border border-crimson/25 flex items-center justify-center shrink-0">
@@ -94,7 +90,7 @@ export default function HeroSection() {
                 <span className="text-xs font-semibold text-white tracking-tight">
                   {pill.text}
                 </span>
-              </motion.div>
+              </div>
             ))}
           </motion.div>
 
@@ -104,8 +100,7 @@ export default function HeroSection() {
             className="lg:col-span-6 relative flex justify-center items-end h-[460px] sm:h-[520px] md:h-[580px] order-1 lg:order-2 pointer-events-none"
           >
             {/* Ambient Back Glow - Slow Motion Breathing Keyframe */}
-            <motion.div
-              
+            <div
               className="absolute bottom-8 w-3/4 h-3/5 bg-crimson/20 rounded-full blur-3xl pointer-events-none"
             />
 
@@ -123,12 +118,12 @@ export default function HeroSection() {
             </div>
           </motion.div>
 
-          {/* RIGHT ACTION BLOCK (Col 3) - Trigger once on scroll down */}
+          {/* RIGHT ACTION BLOCK (Col 3) - Smooth bottom-to-top keyframe */}
           <motion.div
-            initial={{ opacity: 0, y: 14 }}
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: 'easeOut' }}
+            viewport={{ once: true, amount: 0.12 }}
+            transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-3 pb-8 sm:pb-12 space-y-3.5 order-3 lg:order-3"
           >
             <span className="text-[10px] font-mono tracking-widest uppercase text-crimson font-bold block mb-2">

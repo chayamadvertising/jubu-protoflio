@@ -267,9 +267,9 @@ export default function ToolkitSection() {
         
         {/* Section Header: AI & MARKETING TOOLKIT + Antigravity Option Controls */}
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.12 }}
           transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
           className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12"
         >
@@ -296,14 +296,16 @@ export default function ToolkitSection() {
         {/* ================================================================
             INTERACTIVE TOOL CONTAINERS WITH MATCHING POSITION LOGOS AT TOP
             ================================================================ */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
-          {TOOLS_DATA.map((tool, idx) => (
-            <motion.div
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.08 }}
+          transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5"
+        >
+          {TOOLS_DATA.map((tool) => (
+            <div
               key={tool.id}
-              initial={{ opacity: 0, y: 8 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, ease: 'easeOut' }}
               onClick={() => setSelectedTool(tool)}
               className={`p-3.5 sm:p-5 rounded-2xl bg-[#111115] border border-white/10 hover:border-crimson/60 cursor-pointer transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(220,38,38,0.2)] flex flex-col justify-between group relative overflow-hidden ${tool.floatClass}`}
             >
@@ -357,9 +359,9 @@ export default function ToolkitSection() {
                 <span className="truncate">View Breakdown</span>
                 <ChevronDown className="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 group-hover:translate-y-0.5 transition-transform" />
               </div>
-            </motion.div>
+            </div>
           ))}
-        </div>
+        </motion.div>
 
       </div>
 

@@ -54,10 +54,10 @@ export default function FooterSection() {
           
           {/* LEFT: Identity & Direct Contact Details - Slow motion reveal */}
           <motion.div
-            initial={{ opacity: 0, x: -25 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.12 }}
+            transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
             className="space-y-3"
           >
             <div className="inline-block px-3 py-1 rounded-full bg-black/30 border border-white/20 text-xs font-mono font-semibold tracking-wider uppercase text-white/90">
@@ -91,10 +91,10 @@ export default function FooterSection() {
 
           {/* RIGHT: Action Buttons & Social Channels */}
           <motion.div
-            initial={{ opacity: 0, x: 25 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.12 }}
+            transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
             className="flex flex-wrap items-center gap-4 self-stretch sm:self-auto"
           >
             {/* WhatsApp CTA Button */}

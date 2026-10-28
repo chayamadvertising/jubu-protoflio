@@ -339,10 +339,10 @@ export default function FeaturedWorkSection() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 sm:mb-12">
           
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            viewport={{ once: true, amount: 0.12 }}
+            transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
             className="space-y-3"
           >
             <div className="flex items-center gap-3">
@@ -406,7 +406,13 @@ export default function FeaturedWorkSection() {
         {/* ================================================================
             UNIFIED MEDIA CONTAINER
             ================================================================ */}
-        <div className="rounded-3xl bg-[#0E0E12] border border-white/10 p-4 sm:p-6 lg:p-8 shadow-2xl relative">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.08 }}
+          transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+          className="rounded-3xl bg-[#0E0E12] border border-white/10 p-4 sm:p-6 lg:p-8 shadow-2xl relative"
+        >
           
           {/* Top Category Tabs Switcher */}
           <div className="flex flex-wrap items-center justify-between gap-4 pb-6 sm:pb-8 mb-6 sm:mb-8 border-b border-white/10">
@@ -871,7 +877,7 @@ export default function FeaturedWorkSection() {
             </div>
           )}
 
-        </div>
+        </motion.div>
 
       </div>
 

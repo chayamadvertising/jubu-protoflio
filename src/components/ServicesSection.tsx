@@ -38,11 +38,11 @@ export default function ServicesSection() {
     <section id="services" className="relative w-full bg-[#0B0B0E] py-20 sm:py-28 border-t border-b border-white/5 select-none overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header: WHAT I DO - Trigger once on scroll down */}
+        {/* Section Header: WHAT I DO - Smooth bottom-to-top keyframe */}
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.12 }}
           transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
           className="flex items-center gap-3 mb-12 sm:mb-16"
         >
@@ -56,12 +56,12 @@ export default function ServicesSection() {
         {/* 2-Column Clean Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
-          {/* LEFT SIDE: Portrait + 2-Sentence About Summary - Trigger once on scroll down */}
+          {/* LEFT SIDE: Portrait + 2-Sentence About Summary - Smooth bottom-to-top keyframe */}
           <motion.div
-            initial={{ opacity: 0, y: 14 }}
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: 'easeOut' }}
+            viewport={{ once: true, amount: 0.12 }}
+            transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-5 space-y-6"
           >
             <div className="relative w-full h-[380px] sm:h-[440px] rounded-3xl overflow-hidden bg-[#111115] border border-white/10 group shadow-lg">
@@ -81,15 +81,17 @@ export default function ServicesSection() {
             </p>
           </motion.div>
 
-          {/* RIGHT SIDE: 4 Clean Service Cards (Trigger once on scroll down) */}
-          <div className="lg:col-span-7 space-y-4">
-            {SERVICES_DATA.map((service, idx) => (
-              <motion.div
+          {/* RIGHT SIDE: 4 Clean Service Cards - Smooth bottom-to-top keyframe */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.12 }}
+            transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-7 space-y-4"
+          >
+            {SERVICES_DATA.map((service) => (
+              <div
                 key={service.num}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, ease: 'easeOut' }}
                 className="p-5 sm:p-6 rounded-2xl bg-[#111115] border border-white/10 hover:border-crimson/50 hover:shadow-[0_8px_30px_rgba(220,38,38,0.12)] transition-all duration-300 group hover:-translate-y-0.5"
               >
                 <div className="flex items-start gap-4">
@@ -110,9 +112,9 @@ export default function ServicesSection() {
                     </p>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             ))}
-          </div>
+          </motion.div>
 
         </div>
 

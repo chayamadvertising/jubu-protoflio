@@ -124,10 +124,10 @@ export default function SocialPlatformsSection() {
         
         {/* Section Header: MY PLATFORMS */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.15 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ once: true, amount: 0.12 }}
+          transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
           className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10 sm:mb-12"
         >
           <div className="space-y-3">
@@ -153,18 +153,20 @@ export default function SocialPlatformsSection() {
           </span>
         </motion.div>
 
-        {/* 4 Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-          {PLATFORMS.map((platform, idx) => (
-            <motion.a
+        {/* 4 Cards Grid - Smooth bottom-to-top keyframe */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.08 }}
+          transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"
+        >
+          {PLATFORMS.map((platform) => (
+            <a
               key={platform.id}
               href={platform.url}
               target="_blank"
               rel="noopener noreferrer"
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, ease: 'easeOut' }}
               className={`relative rounded-3xl bg-[#0E0E12] border border-white/10 ${platform.bgHover} transition-all duration-300 p-5 sm:p-6 flex flex-col justify-between group hover:-translate-y-1.5 cursor-pointer block shadow-lg`}
             >
               <div>
@@ -202,9 +204,9 @@ export default function SocialPlatformsSection() {
                   <ArrowUpRight className="w-4 h-4" />
                 </span>
               </div>
-            </motion.a>
+            </a>
           ))}
-        </div>
+        </motion.div>
 
       </div>
 
