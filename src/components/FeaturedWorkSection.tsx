@@ -28,7 +28,11 @@ import {
   EyeOff,
   AlertTriangle,
   User,
-  LogOut
+  LogOut,
+  Trash2,
+  Plus,
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react';
 
 const STORAGE_KEY = 'mjt_media_showcase_v1';
@@ -67,6 +71,10 @@ export default function FeaturedWorkSection() {
   const [adminTab, setAdminTab] = useState<'reels' | 'shorts' | 'designs' | 'platforms'>('reels');
   const [saveSuccessNotice, setSaveSuccessNotice] = useState(false);
   const [uploadingKey, setUploadingKey] = useState<string | null>(null);
+  const [visibleDesignCount, setVisibleDesignCount] = useState(4);
+  const [selectedDesignPreview, setSelectedDesignPreview] = useState<CommercialDesignItem | null>(null);
+  const [bulkUploading, setBulkUploading] = useState(false);
+  const [bulkUploadMsg, setBulkUploadMsg] = useState('');
 
   // Temporary Edit Form State (synced when opening modal)
   const [editInstagramProfile, setEditInstagramProfile] = useState('');
@@ -152,7 +160,7 @@ export default function FeaturedWorkSection() {
         } else {
           setGoogleDriveUrl(PORTFOLIO_CONFIG.googleDriveUrl);
         }
-        if (Array.isArray(parsed.commercialDesigns) && parsed.commercialDesigns.length === 4) setCommercialDesigns(parsed.commercialDesigns);
+        if (Array.isArray(parsed.commercialDesigns) && parsed.commercialDesigns.length > 0) setCommercialDesigns(parsed.commercialDesigns);
         if (parsed.linkedinProfileUrl && parsed.linkedinProfileUrl !== 'https://www.linkedin.com/') {
           setLinkedinProfileUrl(parsed.linkedinProfileUrl);
         } else {
@@ -256,6 +264,79 @@ export default function FeaturedWorkSection() {
     setShowAdminModal(false);
     setSaveSuccessNotice(true);
     setTimeout(() => setSaveSuccessNotice(false), 4000);
+  };
+
+  // Bulk Upload Multiple Commercial Designs (up to 10 files)
+  const handleBulkDesignUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    const fileList = Array.from(files).slice(0, 10);
+    setBulkUploading(true);
+    setBulkUploadMsg(`Uploading ${fileList.length} image(s)... Please wait.`);
+
+    try {
+      const formData = new FormData();
+      formData.append('type', 'image');
+      fileList.forEach((file) => {
+        formData.append('files', file);
+      });
+
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (data.success && Array.isArray(data.uploaded)) {
+        const currentMaxId = editDesigns.length > 0 ? Math.max(...editDesigns.map((d) => d.id)) : 0;
+        const newItems: CommercialDesignItem[] = data.uploaded.map((u: any, idx: number) => ({
+          id: currentMaxId + idx + 1,
+          title: u.originalName || `Commercial Poster ${currentMaxId + idx + 1}`,
+          category: 'Commercial Production',
+          description: 'High-impact advertising & commercial visual asset',
+          image: u.url,
+          badge: 'Design Asset',
+          aspect: '3:4',
+        }));
+
+        setEditDesigns((prev) => [...prev, ...newItems]);
+        setBulkUploadMsg(`✓ Successfully added ${newItems.length} new design(s)! Click "Save & Lock Changes" below to apply.`);
+      } else {
+        alert(data.error || 'Bulk upload failed');
+        setBulkUploadMsg('');
+      }
+    } catch (err: any) {
+      alert('Upload error: ' + err.message);
+      setBulkUploadMsg('');
+    } finally {
+      setBulkUploading(false);
+      e.target.value = '';
+    }
+  };
+
+  const handleDeleteDesign = (id: number) => {
+    if (editDesigns.length <= 1) {
+      alert('At least 1 design must remain in the showcase.');
+      return;
+    }
+    setEditDesigns((prev) => prev.filter((d) => d.id !== id));
+  };
+
+  const handleAddNewDesign = () => {
+    const nextId = editDesigns.length > 0 ? Math.max(...editDesigns.map((d) => d.id)) + 1 : 1;
+    setEditDesigns((prev) => [
+      ...prev,
+      {
+        id: nextId,
+        title: `Commercial Design 0${nextId}`,
+        category: 'Commercial Production',
+        description: 'High-impact advertising & commercial visual asset',
+        image: '/designs/design1.jpg',
+        badge: 'Design Asset',
+        aspect: '3:4',
+      },
+    ]);
   };
 
   // Direct Video & File Upload Handler
@@ -805,7 +886,7 @@ export default function FeaturedWorkSection() {
           )}
 
           {/* ================================================================
-              VIEW 3: COMMERCIAL DESIGNS (CLEAN 3:4 ARTWORK - ZERO INNER TEXT)
+              VIEW 3: COMMERCIAL DESIGNS (CLEAN 3:4 ARTWORK - CLICK TO PREVIEW)
               ================================================================ */}
           {activeTab === 'designs' && (
             <div className="space-y-8">
@@ -819,61 +900,74 @@ export default function FeaturedWorkSection() {
                       Commercial Advertising Designs (3:4 Poster Ratio)
                     </h3>
                     <p className="text-xs text-metallic">
-                      Master ad treatments, brand visual suites, and client posters. Click any design to open the Google Drive folder.
+                      Master ad treatments, brand visual suites, and client posters. Click any design to inspect in full resolution.
                     </p>
                   </div>
                 </div>
 
-                <span className="text-[11px] font-mono text-crimson px-3 py-1 rounded-full bg-crimson/10 border border-crimson/25 self-start sm:self-auto">
-                  Pure 3:4 Gallery //
+                <span className="text-[11px] font-mono text-crimson px-3.5 py-1 rounded-full bg-crimson/10 border border-crimson/25 self-start sm:self-auto font-bold">
+                  Pure 3:4 Gallery // {commercialDesigns.length} Works
                 </span>
               </div>
 
-              {/* 4 Poster Designs in 3:4 Aspect Ratio Grid (ZERO Inner Text Overlays) */}
+              {/* Poster Designs in 3:4 Aspect Ratio Grid (4 per row) */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-                {commercialDesigns.map((design) => (
-                  <a
+                {commercialDesigns.slice(0, visibleDesignCount).map((design) => (
+                  <div
                     key={design.id}
-                    href={googleDriveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    onClick={() => setSelectedDesignPreview(design)}
                     className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-[#121217] border border-white/10 hover:border-crimson hover:shadow-[0_12px_35px_rgba(220,38,38,0.3)] transition-all duration-300 group hover:-translate-y-1.5 cursor-pointer block"
-                    title={`Design 0${design.id} • Click to open in Google Drive`}
+                    title={`${design.title || `Commercial Design 0${design.id}`} • Click to view full preview`}
                   >
-                    {/* Pure High-Resolution 3:4 Image Without Inner Text Overlays */}
+                    {/* Pure High-Resolution 3:4 Image */}
                     <Image
                       src={design.image}
                       alt={design.title || `Commercial Design 0${design.id}`}
                       fill
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                       className="object-cover group-hover:scale-[1.04] transition-transform duration-500 rounded-2xl"
-                      priority={design.id <= 2}
+                      priority={design.id <= 4}
                     />
 
-                    {/* Subtle hover crimson tint only on hover */}
-                    <div className="absolute inset-0 bg-crimson/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-2xl" />
-                  </a>
+                    {/* Subtle hover crimson tint and view prompt */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 flex flex-col justify-end rounded-2xl pointer-events-none">
+                      <span className="text-white text-xs font-bold line-clamp-2 drop-shadow">
+                        {design.title}
+                      </span>
+                      <span className="text-crimson-bright text-[10px] font-mono font-bold mt-1.5 flex items-center gap-1.5">
+                        <Eye className="w-3.5 h-3.5" />
+                        <span>View Fullscreen</span>
+                      </span>
+                    </div>
+                  </div>
                 ))}
               </div>
 
-              {/* WATCH MORE DESIGNS • OPEN GOOGLE DRIVE FOLDER BUTTON */}
-              <div className="pt-4 sm:pt-6 flex flex-col items-center justify-center gap-2.5">
-                <a
-                  href={googleDriveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-3.5 rounded-full bg-crimson hover:bg-crimson-bright text-white text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-300 hover:scale-[1.03] shadow-[0_0_35px_rgba(220,38,38,0.35)] group text-center"
-                >
-                  <svg viewBox="0 0 24 24" className="w-5 h-5 fill-current shrink-0">
-                    <path d="M7.71 3.5L1.15 15L4.58 21L11.14 9.5L7.71 3.5ZM14.86 3.5H8.29L14.85 15H21.42L14.86 3.5ZM22.85 15L19.42 21H6.29L9.72 15H22.85Z"/>
-                  </svg>
-                  <span>Watch More Designs • Open Google Drive Folder</span>
-                  <ArrowUpRight className="w-4 h-4 shrink-0 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                </a>
-                <span className="text-[11px] font-mono text-metallic text-center">
-                  Opens official Google Drive cloud repository with high-res design files &amp; commercial exports
-                </span>
-              </div>
+              {/* WATCH MORE DESIGNS BUTTON (EXPANDS 4 BY 4 DOWNWARDS) */}
+              {commercialDesigns.length > 4 && (
+                <div className="pt-4 sm:pt-6 flex flex-col items-center justify-center gap-3">
+                  {visibleDesignCount < commercialDesigns.length ? (
+                    <button
+                      onClick={() => setVisibleDesignCount((prev) => Math.min(prev + 4, commercialDesigns.length))}
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-full bg-crimson hover:bg-crimson-bright text-white text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-300 hover:scale-[1.03] shadow-[0_0_35px_rgba(220,38,38,0.35)] group"
+                    >
+                      <span>Watch More Designs ({commercialDesigns.length - visibleDesignCount} More)</span>
+                      <ChevronDown className="w-4 h-4 group-hover:translate-y-0.5 transition-transform" />
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => setVisibleDesignCount(4)}
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3 rounded-full bg-[#16161D] hover:bg-white/10 text-metallic-light hover:text-white border border-white/10 text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-300"
+                    >
+                      <span>Show Less</span>
+                      <ChevronUp className="w-4 h-4 group-hover:-translate-y-0.5 transition-transform" />
+                    </button>
+                  )}
+                  <span className="text-[11px] font-mono text-metallic text-center">
+                    Showing {Math.min(visibleDesignCount, commercialDesigns.length)} of {commercialDesigns.length} commercial designs
+                  </span>
+                </div>
+              )}
             </div>
           )}
 
@@ -1331,32 +1425,71 @@ export default function FeaturedWorkSection() {
                 </div>
               )}
 
-              {/* TAB 3 EDIT: COMMERCIAL DESIGNS (3:4) */}
+              {/* TAB 3 EDIT: COMMERCIAL DESIGNS (3:4) & BATCH UPLOAD */}
               {adminTab === 'designs' && (
                 <div className="space-y-6 max-h-[60vh] overflow-y-auto pr-2">
                   
-                  {/* Master Google Drive Folder Link */}
-                  <div className="p-4 rounded-2xl bg-black/40 border border-crimson/30 space-y-2">
-                    <label className="text-xs font-mono font-bold text-crimson uppercase block">
-                      Google Drive Folder Link (Watch More Designs Button URL)
-                    </label>
-                    <input
-                      type="url"
-                      value={editGoogleDrive}
-                      onChange={(e) => setEditGoogleDrive(e.target.value)}
-                      placeholder="https://drive.google.com/drive/folders/YOUR_FOLDER_ID"
-                      className="w-full px-4 py-2.5 rounded-xl bg-[#16161D] border border-white/10 focus:border-crimson focus:outline-none text-white text-xs font-mono"
-                    />
-                    <p className="text-[11px] text-metallic">
-                      This is the link opened when users click any design or the &quot;Watch More Designs • Open Google Drive Folder&quot; button.
+                  {/* BATCH UPLOAD UP TO 10 IMAGES */}
+                  <div className="p-4 sm:p-5 rounded-2xl bg-crimson/10 border border-crimson/30 space-y-3.5">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs sm:text-sm font-mono font-bold text-white uppercase flex items-center gap-2">
+                        <Upload className="w-4 h-4 text-crimson" />
+                        Bulk Upload Poster Designs
+                      </span>
+                      <span className="text-[10px] font-mono font-bold text-crimson bg-crimson/20 px-2.5 py-0.5 rounded-full border border-crimson/30">
+                        Up to 10 at once
+                      </span>
+                    </div>
+
+                    <p className="text-xs text-metallic-light leading-relaxed">
+                      Select multiple poster designs (3:4 ratio) from your computer or phone. They will automatically be uploaded and added to your commercial showcase.
                     </p>
+
+                    <label className="w-full cursor-pointer flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-xl bg-crimson hover:bg-crimson-bright text-white text-xs font-bold uppercase tracking-wider transition-all shadow-lg hover:scale-[1.01]">
+                      {bulkUploading ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          <span>Uploading Images...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Upload className="w-4 h-4" />
+                          <span>Choose Multiple Images (Select up to 10 files)</span>
+                        </>
+                      )}
+                      <input
+                        type="file"
+                        multiple
+                        accept="image/*"
+                        disabled={bulkUploading}
+                        onChange={handleBulkDesignUpload}
+                        className="hidden"
+                      />
+                    </label>
+
+                    {bulkUploadMsg && (
+                      <div className="p-3 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-mono flex items-center gap-2">
+                        <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-400" />
+                        <span>{bulkUploadMsg}</span>
+                      </div>
+                    )}
                   </div>
 
-                  {/* 4 Design Items */}
+                  {/* Designs List */}
                   <div className="space-y-4">
-                    <span className="text-xs font-mono text-white/80 font-bold block">
-                      4 Commercial Poster Designs (3:4 Ratio):
-                    </span>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-mono text-white/90 font-bold block">
+                        Commercial Poster Designs ({editDesigns.length} Total):
+                      </span>
+                      <button
+                        type="button"
+                        onClick={handleAddNewDesign}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white text-xs font-mono border border-white/10"
+                      >
+                        <Plus className="w-3.5 h-3.5 text-crimson" />
+                        <span>Add Empty Design</span>
+                      </button>
+                    </div>
 
                     {editDesigns.map((design, idx) => {
                       const isUploading = uploadingKey === `design-${idx}`;
@@ -1365,60 +1498,69 @@ export default function FeaturedWorkSection() {
                         <div key={design.id} className="p-4 rounded-xl bg-white/5 border border-white/10 space-y-3">
                           <div className="flex items-center justify-between">
                             <span className="text-xs font-mono font-bold text-crimson">
-                              Design #{design.id}
+                              Design #{idx + 1}
                             </span>
-                            <span className="text-[10px] font-mono text-metallic">
-                              Aspect: 3:4 Poster
-                            </span>
-                          </div>
-
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            <div>
-                              <label className="text-[11px] font-mono text-metallic block mb-1">
-                                Poster Reference Name
-                              </label>
-                              <input
-                                type="text"
-                                value={design.title}
-                                onChange={(e) => {
-                                  const copy = [...editDesigns];
-                                  copy[idx].title = e.target.value;
-                                  setEditDesigns(copy);
-                                }}
-                                className="w-full px-3 py-2 rounded-lg bg-black/50 border border-white/10 focus:border-crimson focus:outline-none text-white text-xs font-medium"
-                              />
-                            </div>
-
-                            <div>
-                              <label className="text-[11px] font-mono text-metallic block mb-1">
-                                Image File Path
-                              </label>
-                              <input
-                                type="text"
-                                value={design.image}
-                                onChange={(e) => {
-                                  const copy = [...editDesigns];
-                                  copy[idx].image = e.target.value;
-                                  setEditDesigns(copy);
-                                }}
-                                className="w-full px-3 py-2 rounded-lg bg-black/50 border border-white/10 focus:border-crimson focus:outline-none text-white text-xs font-mono"
-                              />
+                            <div className="flex items-center gap-2">
+                              <span className="text-[10px] font-mono text-metallic">
+                                3:4 Poster
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => handleDeleteDesign(design.id)}
+                                className="p-1 rounded-lg text-metallic hover:text-crimson hover:bg-crimson/10 transition-colors"
+                                title="Delete this design"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
                             </div>
                           </div>
 
-                          {/* Upload Image Button */}
-                          <div className="pt-2 flex items-center justify-between border-t border-white/5">
-                            <label className="cursor-pointer inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white text-[11px] font-mono border border-white/10">
-                              {isUploading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Upload className="w-3 h-3" />}
-                              <span>Upload Replacement Image</span>
-                              <input
-                                type="file"
-                                accept="image/*"
-                                onChange={(e) => handleFileUpload(e, 'design', idx)}
-                                disabled={isUploading}
-                                className="hidden"
+                          <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+                            {/* Small thumbnail preview */}
+                            <div className="relative w-14 h-18 sm:w-16 sm:h-20 rounded-lg overflow-hidden bg-black/60 border border-white/10 shrink-0">
+                              <Image
+                                src={design.image}
+                                alt={design.title}
+                                fill
+                                sizes="80px"
+                                className="object-cover"
                               />
-                            </label>
+                            </div>
+
+                            <div className="flex-1 w-full space-y-2">
+                              <div>
+                                <label className="text-[10px] font-mono text-metallic block mb-0.5">
+                                  Poster Title
+                                </label>
+                                <input
+                                  type="text"
+                                  value={design.title}
+                                  onChange={(e) => {
+                                    const copy = [...editDesigns];
+                                    copy[idx].title = e.target.value;
+                                    setEditDesigns(copy);
+                                  }}
+                                  className="w-full px-3 py-1.5 rounded-lg bg-black/50 border border-white/10 focus:border-crimson focus:outline-none text-white text-xs font-medium"
+                                />
+                              </div>
+
+                              <div className="flex items-center justify-between gap-2">
+                                <span className="text-[10px] font-mono text-metallic/70 truncate">
+                                  {design.image}
+                                </span>
+                                <label className="cursor-pointer inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-white text-[10px] font-mono border border-white/10 shrink-0">
+                                  {isUploading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Upload className="w-3 h-3" />}
+                                  <span>Replace</span>
+                                  <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={(e) => handleFileUpload(e, 'design', idx)}
+                                    disabled={isUploading}
+                                    className="hidden"
+                                  />
+                                </label>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       );
@@ -1540,6 +1682,69 @@ export default function FeaturedWorkSection() {
                 </div>
               </div>
 
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Fullscreen Design Lightbox Preview Modal */}
+      <AnimatePresence>
+        {selectedDesignPreview && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/92 backdrop-blur-md overflow-hidden"
+            onClick={() => setSelectedDesignPreview(null)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.92, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.92, y: 15 }}
+              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative max-w-4xl max-h-[92vh] w-full bg-[#111116] border border-white/15 rounded-3xl overflow-hidden shadow-2xl flex flex-col"
+            >
+              {/* Lightbox Header Bar */}
+              <div className="flex items-center justify-between px-5 py-3.5 bg-black/60 border-b border-white/10 shrink-0">
+                <div className="flex items-center gap-2.5">
+                  <span className="text-[10px] font-mono font-bold text-crimson px-2.5 py-0.5 rounded-full bg-crimson/15 border border-crimson/30">
+                    {selectedDesignPreview.badge || 'Commercial Design'}
+                  </span>
+                  <h3 className="text-white text-xs sm:text-sm font-bold truncate max-w-[260px] sm:max-w-md">
+                    {selectedDesignPreview.title}
+                  </h3>
+                </div>
+
+                <button
+                  onClick={() => setSelectedDesignPreview(null)}
+                  className="p-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-white/80 hover:text-white transition-colors"
+                  aria-label="Close Preview"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Lightbox Image Container */}
+              <div className="relative flex-1 min-h-[350px] sm:min-h-[500px] max-h-[75vh] w-full bg-black/80 flex items-center justify-center p-2 sm:p-4">
+                <div className="relative w-full h-full max-h-[72vh] aspect-[3/4]">
+                  <Image
+                    src={selectedDesignPreview.image}
+                    alt={selectedDesignPreview.title}
+                    fill
+                    sizes="(max-width: 1024px) 95vw, 850px"
+                    className="object-contain"
+                    priority
+                  />
+                </div>
+              </div>
+
+              {/* Lightbox Footer Bar */}
+              <div className="px-5 py-3 bg-[#111116] border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 shrink-0">
+                <span className="text-xs text-metallic">
+                  {selectedDesignPreview.description || 'Commercial advertising treatment & poster'}
+                </span>
+                <span className="text-[10px] font-mono text-metallic/70">
+                  Aspect Ratio: 3:4 High-Resolution Master
+                </span>
+              </div>
             </motion.div>
           </div>
         )}
