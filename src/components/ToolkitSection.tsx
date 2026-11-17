@@ -200,24 +200,17 @@ const TOOLS_DATA: ToolItem[] = [
     ]
   },
   {
-    id: 'slides',
-    name: 'Google Slides',
-    role: 'Client Treatment Presentations',
-    category: 'Web & Presentation',
-    badge: 'Presentations',
+    id: 'claude',
+    name: 'Anthropic Claude',
+    role: 'Prompt & Script Architecture',
+    category: 'Scripting & AI Logic',
+    badge: 'Anthropic',
+    imageSrc: '/logos/claude.png',
     floatClass: 'antigravity-float-1',
-    customIcon: (
-      <svg viewBox="0 0 24 24" className="w-8 h-8" fill="none">
-        <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3Z" fill="#F59E0B" fillOpacity="0.22" stroke="#F59E0B" strokeWidth="1.8"/>
-        <rect x="7" y="7" width="10" height="7" rx="1" stroke="#F59E0B" strokeWidth="1.6" fill="#F59E0B" fillOpacity="0.35"/>
-        <path d="M9 17H15" stroke="#F59E0B" strokeWidth="1.6" strokeLinecap="round"/>
-        <path d="M12 14V17" stroke="#F59E0B" strokeWidth="1.6"/>
-      </svg>
-    ),
     bullets: [
-      'Formats commercial pitch decks for brand executives and marketing teams.',
-      'Outlines multi-shot video timelines and storyboard concept frames.',
-      'Shares interactive review links for frictionless client approvals.'
+      'Drafts nuanced, emotionally resonant commercial narratives, character arcs, and multi-shot video scripts.',
+      'Architects complex system prompts, negative constraints, and camera direction parameters for AI video rendering.',
+      'Analyzes Meta ad hook performance metrics to formulate psychological high-conversion direct-response angles.'
     ]
   },
   {
