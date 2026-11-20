@@ -6,12 +6,12 @@
 
 @layer base {
   :root {
-    --background: 5 5 5;
+    --background: 7 7 9;
     --foreground: 255 255 255;
   }
 
   html {
-    background-color: #050505;
+    background-color: #070709;
     color: #FFFFFF;
     color-scheme: dark;
     -webkit-font-smoothing: antialiased;
@@ -40,7 +40,7 @@
   }
 
   body {
-    background-color: #050505;
+    background-color: #070709;
     color: #FFFFFF;
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
     overflow-x: hidden;
@@ -48,12 +48,12 @@
   }
 
   ::selection {
-    background-color: #DC2626;
+    background-color: #E11D48;
     color: #FFFFFF;
   }
 
   ::-moz-selection {
-    background-color: #DC2626;
+    background-color: #E11D48;
     color: #FFFFFF;
   }
 }
@@ -63,39 +63,39 @@
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #050505;
+  background: #070709;
 }
 ::-webkit-scrollbar-thumb {
   background: #27272A;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #DC2626;
+  background: #E11D48;
 }
 
-/* Glassmorphism utility classes - Executive Refined */
+/* Glassmorphism utility classes - High-End Dark Studio Aesthetic */
 .glass-panel {
-  background: rgba(18, 18, 22, 0.82);
+  background: rgba(17, 17, 21, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .glass-panel-subtle {
-  background: rgba(15, 15, 18, 0.65);
+  background: rgba(14, 14, 18, 0.70);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .glass-panel-hover {
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glass-panel-hover:hover {
-  border-color: rgba(220, 38, 38, 0.45);
-  box-shadow: 0 12px 30px -10px rgba(220, 38, 38, 0.20);
-  transform: translateY(-2px);
+  border-color: rgba(225, 29, 72, 0.55);
+  box-shadow: 0 14px 34px -10px rgba(225, 29, 72, 0.22);
+  transform: translateY(-4px);
 }
 
 /* Subtle background grid pattern */
@@ -104,14 +104,6 @@
   background-image: 
     linear-gradient(to right, rgba(255, 255, 255, 0.018) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
-}
-
-/* Perspective utilities for 3D card tilts */
-.perspective-1000 {
-  perspective: 1000px;
-}
-.transform-style-3d {
-  transform-style: preserve-3d;
 }
 
 /* Hide scrollbar for clean UI */
@@ -124,112 +116,165 @@
 }
 
 /* ====================================================================
-   ANTIGRAVITY & ZERO-GRAVITY SYSTEM KEYFRAMES
+   DEVICE-ADAPTIVE, GPU-COMPOSITED ZERO-LAG KEYFRAME ARCHITECTURE
+   (Strictly animates ONLY transform and opacity - never width/height/margin/shadow)
    ==================================================================== */
-@keyframes antiGravityFloat1 {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-12px) rotate(1deg);
-  }
-}
 
-@keyframes antiGravityFloat2 {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-18px) rotate(-1.5deg);
-  }
-}
-
-@keyframes antiGravityFloatSlow {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
-}
-
-@keyframes crimsonShimmer {
+/* 1. Studio Reveal (Smooth Staggered Entrance) */
+@keyframes studioReveal {
   0% {
-    background-position: -200% 0;
+    opacity: 0;
+    transform: translate3d(0, 28px, 0) scale(0.98);
   }
   100% {
-    background-position: 200% 0;
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
   }
 }
 
-@keyframes zeroGravityDrift {
+/* 2. Portrait Glow Pulse (Breathing Radial Rim Glow) */
+@keyframes portraitGlowPulse {
   0% {
-    transform: translateY(0) scale(1);
-    opacity: 0.15;
-  }
-  50% {
-    transform: translateY(-40px) scale(1.15);
-    opacity: 0.45;
+    opacity: 0.50;
+    transform: scale(0.96);
   }
   100% {
-    transform: translateY(-80px) scale(0.95);
-    opacity: 0.1;
+    opacity: 0.90;
+    transform: scale(1.04);
   }
 }
 
-.text-crimson-shimmer {
+/* 3. Float 3D (Ambient Drift for Floating Visual Elements) */
+@keyframes float3D {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -10px, 0);
+  }
+}
+
+/* 4. Crimson Sheen (Sleek Light-Sweep Highlight Across Cards) */
+@keyframes crimsonSheen {
+  0% {
+    transform: translate3d(-100%, 0, 0);
+  }
+  100% {
+    transform: translate3d(100%, 0, 0);
+  }
+}
+
+/* 5. Mobile Fade Up (Silky 60fps Entrance with zero scale/blur/tilt) */
+@keyframes mobileFadeUp {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Class Bindings */
+.portrait-glow-pulse {
+  animation: portraitGlowPulse 6s ease-in-out infinite alternate;
+  will-change: transform, opacity;
+}
+
+.studio-sheen-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.studio-sheen-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: linear-gradient(
     90deg,
-    #DC2626 0%,
-    #EF4444 35%,
-    #FFFFFF 50%,
-    #EF4444 65%,
-    #DC2626 100%
+    transparent 0%,
+    rgba(225, 29, 72, 0.08) 50%,
+    transparent 100%
   );
-  background-size: 200% 100%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: none;
+  transform: translate3d(-100%, 0, 0);
+  pointer-events: none;
+  transition: transform 0.6s ease;
 }
 
-/* Antigravity Floating & Shimmer Animation - STRICTLY ON DESKTOP (min-width: 1024px) ONLY */
-.antigravity-float-1,
-.antigravity-float-2,
-.antigravity-float-slow {
-  animation: none !important;
-  transform: none !important;
+.studio-sheen-container:hover::after {
+  animation: crimsonSheen 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-@media (min-width: 1024px) {
-  .antigravity-float-1 {
-    animation: antiGravityFloat1 6s ease-in-out infinite !important;
-    will-change: transform;
-    transform-style: preserve-3d;
+/* Card 3D hover elevation */
+.card-elevation-hover {
+  transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1), border-color 280ms ease, box-shadow 280ms ease;
+  will-change: transform;
+}
+
+/* ====================================================================
+   DESKTOP OPTIMIZATIONS (@media min-width: 1024px and pointer: fine)
+   ==================================================================== */
+@media (min-width: 1024px) and (pointer: fine) {
+  .card-elevation-hover:hover {
+    transform: translateY(-6px);
+    border-color: rgba(225, 29, 72, 0.60);
+    box-shadow: 0 16px 36px -10px rgba(225, 29, 72, 0.25);
   }
 
-  .antigravity-float-2 {
-    animation: antiGravityFloat2 8s ease-in-out infinite !important;
+  .float-3d-active {
+    animation: float3D 6s ease-in-out infinite;
     will-change: transform;
-    transform-style: preserve-3d;
-  }
-
-  .antigravity-float-slow {
-    animation: antiGravityFloatSlow 7s ease-in-out infinite !important;
-    will-change: transform;
-    transform-style: preserve-3d;
-  }
-
-  .text-crimson-shimmer {
-    animation: crimsonShimmer 6s ease-in-out infinite !important;
   }
 }
 
-@media (max-width: 1023px) {
-  .antigravity-float-1,
-  .antigravity-float-2,
-  .antigravity-float-slow,
-  .text-crimson-shimmer {
+/* ====================================================================
+   MOBILE & TOUCH OPTIMIZATIONS (@media max-width: 1023px, pointer: coarse)
+   (Disables heavy continuous repaints & replaces with buttery smooth mobile keyframes)
+   ==================================================================== */
+@media (max-width: 1023px), (pointer: coarse) {
+  .float-3d-active {
     animation: none !important;
     transform: none !important;
+  }
+
+  .portrait-glow-pulse {
+    animation: none !important;
+    opacity: 0.75;
+    transform: scale(1);
+  }
+
+  .card-elevation-hover:hover {
+    transform: none !important;
+  }
+
+  .studio-sheen-container::after {
+    display: none !important;
+  }
+
+  .mobile-fade-up {
+    animation: mobileFadeUp 360ms ease-out forwards;
+  }
+}
+
+/* ====================================================================
+   REDUCED MOTION SUPPORT (@media prefers-reduced-motion: reduce)
+   ==================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .portrait-glow-pulse,
+  .float-3d-active {
+    animation: none !important;
   }
 }

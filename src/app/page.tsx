@@ -8,6 +8,7 @@ import HeroSection from '@/components/HeroSection';
 import ServicesSection from '@/components/ServicesSection';
 import ToolkitSection from '@/components/ToolkitSection';
 import FeaturedWorkSection from '@/components/FeaturedWorkSection';
+import MetaAdsSection from '@/components/MetaAdsSection';
 import SocialPlatformsSection from '@/components/SocialPlatformsSection';
 import ExperienceSection from '@/components/ExperienceSection';
 import FooterSection from '@/components/FooterSection';
@@ -15,7 +16,7 @@ import FooterSection from '@/components/FooterSection';
 export default function Home() {
   return (
     <SmoothScroll>
-      <div className="relative min-h-screen bg-[#08080A] text-white selection:bg-crimson selection:text-white font-sans antialiased overflow-x-hidden">
+      <div className="relative min-h-screen bg-[#070709] text-white selection:bg-crimson selection:text-white font-sans antialiased overflow-x-hidden">
         {/* Antigravity Floating Particle Background Layer */}
         <AntigravityCanvas />
 
@@ -25,22 +26,25 @@ export default function Home() {
         {/* 2. HERO SECTION (SINGLE-LINE NAME ABOVE HEAD + SCROLL PARALLAX) */}
         <HeroSection />
 
-        {/* 3. CORE SERVICES & WORKFLOW (WHAT I DO) */}
+        {/* 3. CORE SERVICES & WORKFLOW (AGENCY PILLARS) */}
         <ServicesSection />
 
-        {/* 4. CLICKABLE AI & MARKETING TOOL CONTAINERS (TOOLS & WORKFLOW) */}
+        {/* 4. PRODUCTION STACK (CLICKABLE TOOL WORKFLOWS) */}
         <ToolkitSection />
 
-        {/* 5. FEATURED WORK (INSTAGRAM REELS, YOUTUBE SHORTS & COMMERCIAL DESIGNS) */}
+        {/* 5. FEATURED WORK (REELS, SHORTS, COMMERCIAL DESIGNS & WEB BUILDS) */}
         <FeaturedWorkSection />
 
-        {/* 6. MY PLATFORMS // LINKEDIN, INSTAGRAM, YOUTUBE, WHATSAPP */}
+        {/* 6. META ADS CAMPAIGN PERFORMANCE (VERIFIED EXCEL / CSV DATA) */}
+        <MetaAdsSection />
+
+        {/* 7. VERIFIED PLATFORMS // LINKEDIN, INSTAGRAM, YOUTUBE, WHATSAPP */}
         <SocialPlatformsSection />
 
-        {/* 7. EXPERIENCE, EDUCATION & ATS DOSSIER */}
+        {/* 8. EXPERIENCE, EDUCATION & ATS DOSSIER */}
         <ExperienceSection />
 
-        {/* 8. BOTTOM CRIMSON RED CONTACT FOOTER BAR */}
+        {/* 9. BOTTOM CRIMSON RED CONTACT FOOTER BAR */}
         <FooterSection />
       </div>
     </SmoothScroll>

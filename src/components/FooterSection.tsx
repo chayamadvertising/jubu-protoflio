@@ -65,11 +65,11 @@ export default function FooterSection() {
             </div>
 
             <h2 className="font-display font-extrabold text-2xl sm:text-3xl lg:text-4xl tracking-tight text-white">
-              LET&apos;S ENGINEER HIGH-CONVERTING AI CREATIVES
+              LET&apos;S SCALE YOUR BRAND WITH AI CREATIVES &amp; META ADS
             </h2>
 
-            <p className="text-white/80 text-sm sm:text-base max-w-xl leading-relaxed">
-              Available for full AI video commercial productions, Meta Ads creative consulting, and prompt engineering architecture.
+            <p className="text-white/85 text-sm sm:text-base max-w-xl leading-relaxed">
+              Available for full commercial video productions (150+ AI ad films delivered), Meta Ads performance campaigns, and creative agency consulting.
             </p>
 
             {/* Micro Details Grid */}

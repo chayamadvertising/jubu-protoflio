@@ -32,7 +32,9 @@ import {
   Trash2,
   Plus,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Globe,
+  ExternalLink
 } from 'lucide-react';
 
 const STORAGE_KEY = 'mjt_media_showcase_v1';
@@ -108,8 +110,8 @@ async function compressImage(
 }
 
 export default function FeaturedWorkSection() {
-  // Active Tab: 'reels' | 'shorts' | 'designs'
-  const [activeTab, setActiveTab] = useState<'reels' | 'shorts' | 'designs'>('reels');
+  // Active Tab: 'reels' | 'shorts' | 'designs' | 'web'
+  const [activeTab, setActiveTab] = useState<'reels' | 'shorts' | 'designs' | 'web'>('reels');
 
   // Currently Playing Video ID for clean in-card playback
   const [playingReelId, setPlayingReelId] = useState<number | null>(null);
@@ -668,7 +670,27 @@ export default function FeaturedWorkSection() {
                 <Sparkles className="w-4 h-4 shrink-0" />
                 <span>Commercial Designs (3:4)</span>
                 <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-black/30">
-                  4
+                  {commercialDesigns.length}
+                </span>
+              </button>
+
+              {/* Tab 4 (NEW): Web Projects (2-3 Live Builds) */}
+              <button
+                onClick={() => {
+                  setActiveTab('web');
+                  setPlayingReelId(null);
+                  setPlayingShortId(null);
+                }}
+                className={`inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold tracking-wide transition-all duration-200 ${
+                  activeTab === 'web'
+                    ? 'bg-crimson text-white shadow-crimson-subtle scale-[1.02]'
+                    : 'bg-[#16161C] text-metallic hover:text-white hover:bg-white/5 border border-white/5'
+                }`}
+              >
+                <Globe className="w-4 h-4 shrink-0" />
+                <span>Web Projects (Live Builds)</span>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-black/30">
+                  {PORTFOLIO_CONFIG.webProjects?.length || 3}
                 </span>
               </button>
 
@@ -681,6 +703,7 @@ export default function FeaturedWorkSection() {
                 {activeTab === 'reels' && '9:16 Vertical Reel'}
                 {activeTab === 'shorts' && '9:16 Portrait Short'}
                 {activeTab === 'designs' && '3:4 Commercial Poster'}
+                {activeTab === 'web' && 'High-Conversion Web Builds'}
               </span>
             </div>
           </div>
@@ -1083,6 +1106,117 @@ export default function FeaturedWorkSection() {
                   </span>
                 </div>
               )}
+            </div>
+          )}
+
+          {/* ================================================================
+              VIEW 4 (NEW): WEB PROJECTS (2-3 LIVE BUILDS & CLIENT FUNNELS)
+              ================================================================ */}
+          {activeTab === 'web' && (
+            <div className="space-y-8">
+              {/* Top Banner Notice */}
+              <div className="p-4 sm:p-5 rounded-2xl bg-[#111115] border border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-crimson/15 border border-crimson/30 flex items-center justify-center shrink-0">
+                    <Globe className="w-4 h-4 text-crimson" />
+                  </div>
+                  <div>
+                    <h3 className="font-display font-bold text-sm sm:text-base text-white">
+                      Selected Web Projects &amp; Conversion Funnels
+                    </h3>
+                    <p className="text-xs text-metallic">
+                      Secondary value-add: high-speed conversion websites and client pitch portals built to support advertising campaigns.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 self-start sm:self-auto">
+                  <span className="text-[10px] font-mono px-3 py-1 rounded-full bg-white/5 border border-white/10 text-metallic">
+                    Python • Lovable • Bolt.new
+                  </span>
+                </div>
+              </div>
+
+              {/* 3-Column Web Project Cards Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {(PORTFOLIO_CONFIG.webProjects || []).map((project) => (
+                  <div
+                    key={project.id}
+                    className="rounded-2xl bg-[#111115] border border-white/10 hover:border-crimson/60 transition-all duration-300 flex flex-col justify-between overflow-hidden group shadow-lg studio-sheen-container card-elevation-hover"
+                  >
+                    {/* Top Preview Image Container */}
+                    <div className="relative w-full h-48 sm:h-52 bg-black/60 overflow-hidden border-b border-white/10">
+                      <Image
+                        src={project.previewImage}
+                        alt={project.title}
+                        fill
+                        className="object-cover object-top transition-transform duration-700 group-hover:scale-105 filter contrast-[1.03]"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#111115] via-transparent to-transparent" />
+                      
+                      {/* Top Badge */}
+                      <div className="absolute top-3 left-3 z-10">
+                        <span className="text-[10px] font-mono px-2.5 py-1 rounded-full bg-black/80 border border-crimson/40 text-crimson font-bold backdrop-blur-md">
+                          {project.badge}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Card Body */}
+                    <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
+                      <div className="space-y-2">
+                        <div className="text-[10px] font-mono text-crimson uppercase tracking-wider font-semibold">
+                          {project.client}
+                        </div>
+                        <h4 className="font-display font-bold text-base sm:text-lg text-white group-hover:text-crimson transition-colors">
+                          {project.title}
+                        </h4>
+                        <p className="text-xs text-metallic leading-relaxed line-clamp-3">
+                          {project.description}
+                        </p>
+                      </div>
+
+                      {/* Campaign / Business Goal */}
+                      <div className="p-3 rounded-xl bg-black/40 border border-white/5 space-y-1">
+                        <span className="text-[9px] font-mono uppercase text-crimson font-bold tracking-wider block">
+                          CAMPAIGN GOAL //
+                        </span>
+                        <p className="text-[11px] text-metallic-light leading-snug">
+                          {project.goal}
+                        </p>
+                      </div>
+
+                      {/* Tech Stack Pills */}
+                      <div className="flex flex-wrap gap-1.5 pt-1">
+                        {project.techStack.map((tech, idx) => (
+                          <span
+                            key={idx}
+                            className="text-[9px] font-mono px-2 py-0.5 rounded bg-white/5 text-metallic-light border border-white/10"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+
+                      {/* Result Note */}
+                      <div className="pt-3 border-t border-white/5 flex items-center justify-between text-[11px] text-metallic font-mono">
+                        <span className="truncate text-white/80">{project.results}</span>
+                      </div>
+
+                      {/* Action Button: Live Preview */}
+                      <a
+                        href={project.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white/5 hover:bg-crimson text-white text-xs font-semibold tracking-wider uppercase border border-white/10 hover:border-crimson transition-all duration-200 group/btn shadow-sm"
+                      >
+                        <span>Live Preview</span>
+                        <ArrowUpRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+                      </a>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 

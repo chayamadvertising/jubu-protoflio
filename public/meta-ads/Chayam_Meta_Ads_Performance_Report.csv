@@ -1,0 +1,7 @@
+"Reporting starts","Reporting ends","Campaign name","Campaign delivery","Attribution setting",Results,"Result indicator","Cost per results","Ad set budget","Ad set budget type","Amount spent (INR)",Impressions,Reach,Ends,"Results (initial)","Results (initial) indicator"
+2026-09-01,2026-11-16,"chayam first ad oct-05",inactive,"7-day click or 1-day view",174576,reach,4.5334983,"Using ad set budget",0,791.44,182643,174576,Ongoing,,
+2026-09-01,2026-11-16,"chayam first engagement campaign -oct-09",archived,"7-day click or 1-day view",69,actions:post_engagement,7.72898551,"Using ad set budget",0,533.3,8687,4837,2026-10-13,,
+2026-09-01,2026-11-16,"second awareness campaign -oct-13",archived,"7-day click or 1-day view",56,reach,2.67857143,"Using ad set budget",0,0.15,57,56,2026-10-13,,
+2026-09-01,2026-11-16,"second awareness campaign -oct-13",inactive,"7-day click or 1-day view",130204,reach,4.13942736,"Using ad set budget",0,538.97,135085,130204,Ongoing,,
+2026-09-01,2026-11-16,"second engagement campaign-oct -21",inactive,"7-day click or 1-day view",2595,actions:post_interaction_gross,0.32678227,"Using ad set budget",0,848,28684,16709,Ongoing,,
+2026-09-01,2026-11-16,"orginal campaign -nov -06",inactive,"7-day click or 1-day view",2679,actions:post_interaction_gross,0.28850317,"Using ad set budget",0,772.9,27262,16319,Ongoing,,

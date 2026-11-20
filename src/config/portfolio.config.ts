@@ -1,5 +1,5 @@
 // ====================================================================
-// 1. QUICK-EDIT LINKS & ASSETS CONFIG (TOP OF CODE)
+// QUICK-EDIT LINKS & ASSETS CONFIG (ADVERTISING AGENCY PORTFOLIO)
 // ====================================================================
 
 export interface ReelItem {
@@ -34,6 +34,19 @@ export interface CommercialDesignItem {
   aspect: string;
 }
 
+export interface WebProjectItem {
+  id: number;
+  title: string;
+  client: string;
+  goal: string;
+  description: string;
+  techStack: string[];
+  url: string;
+  previewImage: string;
+  badge: string;
+  results: string;
+}
+
 export interface PortfolioConfigType {
   name: string;
   role: string;
@@ -42,7 +55,8 @@ export interface PortfolioConfigType {
   email: string;
   location: string;
   cvDownloadUrl: string;
-  googleDriveUrl: string; // Direct link to open Google Drive Folder
+  googleDriveUrl: string;
+  metaAdsReportUrl: string;
   photos: {
     hero: string;
     services: string;
@@ -52,9 +66,10 @@ export interface PortfolioConfigType {
   youtubeChannelUrl: string;
   linkedinProfileUrl: string;
   instagramReels: ReelItem[];
-  youtubeShorts: ReelItem[]; // 4 Vertical 9:16 Shorts
-  youtubeVideos: VideoItem[]; // Backwards compatibility
-  commercialDesigns: CommercialDesignItem[]; // 4 3:4 Poster Designs
+  youtubeShorts: ReelItem[];
+  youtubeVideos: VideoItem[];
+  commercialDesigns: CommercialDesignItem[];
+  webProjects: WebProjectItem[];
   googleDriveProjects: DriveProjectItem[];
 }
 
@@ -65,13 +80,14 @@ export const ADMIN_CREDENTIALS = {
 
 export const PORTFOLIO_CONFIG: PortfolioConfigType = {
   name: "MUHAMMED JUBAIR T",
-  role: "AI Video Producer | Digital Marketing & Meta Ads Specialist | Prompt Engineer",
-  whatsappUrl: "https://wa.me/918129418544?text=Hi%20Muhammed%20Jubair%2C%20I%20saw%20your%20portfolio%20and%20want%20to%20discuss%20a%20project.",
+  role: "AI Commercial Video Producer | Performance Creative & Meta Ads Strategist",
+  whatsappUrl: "https://wa.me/918129418544?text=Hi%20Muhammed%20Jubair%2C%20I%20saw%20your%20Advertising%20Agency%20portfolio%20and%20want%20to%20discuss%20a%20project.",
   phone: "+91 8129418544",
   email: "jubujubair257@gmail.com",
   location: "Kerala, India",
-  cvDownloadUrl: "/Muhammed_Jubair_T_CV.pdf",
+  cvDownloadUrl: "/Muhammed_Jubair_T_Ad_Agency_CV_150Plus.pdf",
   googleDriveUrl: "https://drive.google.com/drive/home",
+  metaAdsReportUrl: "/meta-ads/Chayam_Meta_Ads_Performance_Report.csv",
   photos: {
     hero: "/pose1-hero-arms-crossed.png",
     services: "/pose2-side-angle.png",
@@ -174,6 +190,44 @@ export const PORTFOLIO_CONFIG: PortfolioConfigType = {
       image: "/designs/design4.jpg",
       badge: "Festival Campaign",
       aspect: "3:4"
+    }
+  ],
+  webProjects: [
+    {
+      id: 1,
+      title: "Chayam Advertising Agency Portal",
+      client: "Chayam Advertising & Media Agency",
+      goal: "Brand authority showcase and high-conversion client enquiry funnel.",
+      description: "Designed and engineered the full-stack web presence for Chayam Advertising, integrating interactive project galleries, brand credentials, and direct lead capture funnels.",
+      techStack: ["Next.js", "Tailwind CSS", "TypeScript", "Lovable"],
+      url: "https://chayamadvertising.com",
+      previewImage: "/designs/design1.jpg",
+      badge: "Agency Web Portal",
+      results: "Sub-second load speeds & direct WhatsApp client qualification"
+    },
+    {
+      id: 2,
+      title: "AI Commercial Director 3D Studio",
+      client: "Director Portfolio & Real-time Video CMS",
+      goal: "Zero-gravity interactive 3D studio portfolio with custom video management.",
+      description: "Built high-performance 3D portfolio featuring real-time video database CRUD, client-side canvas compression, and 60fps GPU-composited keyframe animations.",
+      techStack: ["Next.js 14", "Framer Motion", "TypeScript", "Tailwind"],
+      url: "https://jubu-protoflio.vercel.app",
+      previewImage: "/designs/design2.jpg",
+      badge: "3D Studio & CMS",
+      results: "150+ video commercial showcase with on-the-spot admin uploads"
+    },
+    {
+      id: 3,
+      title: "Mukkam Regional Campaign Lead Funnel",
+      client: "Kerala Regional Brand Campaign",
+      goal: "High-CTR mobile landing page designed to convert targeted Meta Ads traffic.",
+      description: "Developed conversion-focused landing page paired with Facebook/Instagram video ads, featuring localized Malayalam messaging and frictionless one-tap WhatsApp chat onboarding.",
+      techStack: ["Python", "Bolt.new", "Tailwind CSS", "WhatsApp API"],
+      url: "https://chayamadvertising.com",
+      previewImage: "/designs/design3.jpg",
+      badge: "Meta Ads Funnel",
+      results: "342K+ Reach campaign funnel with lowest cost per lead"
     }
   ],
   googleDriveProjects: [
