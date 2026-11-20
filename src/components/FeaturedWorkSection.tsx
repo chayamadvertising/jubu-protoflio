@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PORTFOLIO_CONFIG, ADMIN_CREDENTIALS, ReelItem, CommercialDesignItem } from '@/config/portfolio.config';
+import { PORTFOLIO_CONFIG, ADMIN_CREDENTIALS, ReelItem, CommercialDesignItem, WebProjectLiveItem } from '@/config/portfolio.config';
 import { parseYouTubeUrl, parseInstagramUrl } from '@/utils/mediaParser';
 import {
   Play,
@@ -109,6 +109,71 @@ async function compressImage(
   });
 }
 
+/**
+ * Scaled Desktop Browser Iframe Component
+ * Automatically calculates dynamic scale ratio to render a 1280x800 desktop
+ * website preview cleanly inside any responsive container with zero horizontal distortion.
+ */
+function ScaledDesktopIframe({ src, title }: { src: string; title: string }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(0.38);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const updateScale = () => {
+      if (containerRef.current) {
+        const width = containerRef.current.clientWidth;
+        // 1280 is standard desktop browser viewport width
+        const calculatedScale = Math.min(1, Math.max(0.18, width / 1280));
+        setScale(calculatedScale);
+      }
+    };
+    updateScale();
+    const observer = new ResizeObserver(updateScale);
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={containerRef}
+      className="relative w-full h-[260px] sm:h-[320px] md:h-[350px] bg-black overflow-hidden group/frame"
+    >
+      <div
+        style={{
+          width: '1280px',
+          height: '800px',
+          transform: `scale(${scale})`,
+          transformOrigin: 'top left',
+        }}
+        className="pointer-events-none select-none bg-white"
+      >
+        <iframe
+          src={src}
+          title={title}
+          loading="lazy"
+          sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+          className="w-full h-full border-0 bg-white"
+        />
+      </div>
+
+      {/* Interactive Hover Click Overlay */}
+      <a
+        href={src}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/0 hover:bg-black/45 backdrop-blur-[0px] hover:backdrop-blur-xs transition-all duration-300 group/overlay text-transparent hover:text-white"
+        title={`Click to open ${title} live in new tab`}
+      >
+        <span className="opacity-0 group-hover/overlay:opacity-100 transform translate-y-2 group-hover/overlay:translate-y-0 transition-all duration-200 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-crimson text-white text-xs font-bold shadow-2xl border border-white/20">
+          <span>EXPLORE LIVE SITE</span>
+          <ArrowUpRight className="w-4 h-4" />
+        </span>
+      </a>
+    </div>
+  );
+}
+
 export default function FeaturedWorkSection() {
   // Active Tab: 'reels' | 'shorts' | 'designs' | 'web'
   const [activeTab, setActiveTab] = useState<'reels' | 'shorts' | 'designs' | 'web'>('reels');
@@ -126,6 +191,7 @@ export default function FeaturedWorkSection() {
 
   const [googleDriveUrl, setGoogleDriveUrl] = useState(PORTFOLIO_CONFIG.googleDriveUrl);
   const [commercialDesigns, setCommercialDesigns] = useState<CommercialDesignItem[]>(PORTFOLIO_CONFIG.commercialDesigns);
+  const [webProjects, setWebProjects] = useState<WebProjectLiveItem[]>(PORTFOLIO_CONFIG.webProjects || []);
 
   const [linkedinProfileUrl, setLinkedinProfileUrl] = useState(PORTFOLIO_CONFIG.linkedinProfileUrl || 'https://www.linkedin.com/');
   const [whatsappUrl, setWhatsappUrl] = useState(PORTFOLIO_CONFIG.whatsappUrl);
@@ -140,7 +206,7 @@ export default function FeaturedWorkSection() {
 
   const [isLocked, setIsLocked] = useState(true);
   const [showAdminModal, setShowAdminModal] = useState(false);
-  const [adminTab, setAdminTab] = useState<'reels' | 'shorts' | 'designs' | 'platforms'>('reels');
+  const [adminTab, setAdminTab] = useState<'reels' | 'shorts' | 'designs' | 'web' | 'platforms'>('reels');
   const [saveSuccessNotice, setSaveSuccessNotice] = useState(false);
   const [uploadingKey, setUploadingKey] = useState<string | null>(null);
   const [visibleDesignCount, setVisibleDesignCount] = useState(4);
@@ -155,6 +221,7 @@ export default function FeaturedWorkSection() {
   const [editShorts, setEditShorts] = useState<ReelItem[]>([]);
   const [editGoogleDrive, setEditGoogleDrive] = useState('');
   const [editDesigns, setEditDesigns] = useState<CommercialDesignItem[]>([]);
+  const [editWebProjects, setEditWebProjects] = useState<WebProjectLiveItem[]>(PORTFOLIO_CONFIG.webProjects || []);
   const [editLinkedin, setEditLinkedin] = useState('');
   const [editWhatsapp, setEditWhatsapp] = useState('');
 
@@ -233,6 +300,11 @@ export default function FeaturedWorkSection() {
           setGoogleDriveUrl(PORTFOLIO_CONFIG.googleDriveUrl);
         }
         if (Array.isArray(parsed.commercialDesigns) && parsed.commercialDesigns.length > 0) setCommercialDesigns(parsed.commercialDesigns);
+        if (Array.isArray(parsed.webProjects) && parsed.webProjects.length > 0) {
+          setWebProjects(parsed.webProjects);
+        } else {
+          setWebProjects(PORTFOLIO_CONFIG.webProjects || []);
+        }
         if (parsed.linkedinProfileUrl && parsed.linkedinProfileUrl !== 'https://www.linkedin.com/') {
           setLinkedinProfileUrl(parsed.linkedinProfileUrl);
         } else {
@@ -260,6 +332,7 @@ export default function FeaturedWorkSection() {
     setEditShorts(JSON.parse(JSON.stringify(youtubeShorts)));
     setEditGoogleDrive(googleDriveUrl);
     setEditDesigns(JSON.parse(JSON.stringify(commercialDesigns)));
+    setEditWebProjects(JSON.parse(JSON.stringify(webProjects.length > 0 ? webProjects : PORTFOLIO_CONFIG.webProjects)));
     setEditLinkedin(linkedinProfileUrl);
     setEditWhatsapp(whatsappUrl);
     setIsLocked(false);
@@ -283,6 +356,7 @@ export default function FeaturedWorkSection() {
       setEditShorts(JSON.parse(JSON.stringify(youtubeShorts)));
       setEditGoogleDrive(googleDriveUrl);
       setEditDesigns(JSON.parse(JSON.stringify(commercialDesigns)));
+      setEditWebProjects(JSON.parse(JSON.stringify(webProjects.length > 0 ? webProjects : PORTFOLIO_CONFIG.webProjects)));
       setEditLinkedin(linkedinProfileUrl);
       setEditWhatsapp(whatsappUrl);
       setIsLocked(false);
@@ -311,6 +385,7 @@ export default function FeaturedWorkSection() {
     setYoutubeShorts(editShorts);
     setGoogleDriveUrl(editGoogleDrive);
     setCommercialDesigns(editDesigns);
+    setWebProjects(editWebProjects);
     setLinkedinProfileUrl(editLinkedin);
     setWhatsappUrl(editWhatsapp);
 
@@ -321,6 +396,7 @@ export default function FeaturedWorkSection() {
       youtubeShorts: editShorts,
       googleDriveUrl: editGoogleDrive,
       commercialDesigns: editDesigns,
+      webProjects: editWebProjects,
       linkedinProfileUrl: editLinkedin,
       whatsappUrl: editWhatsapp
     };
@@ -454,6 +530,14 @@ export default function FeaturedWorkSection() {
         fileToSend = compressed.blob;
         fileName = compressed.name;
         finalUrl = compressed.dataUrl;
+      } else {
+        // Video file size safeguard for Vercel's 4.5MB serverless limit
+        if (file.size > 4.2 * 1024 * 1024) {
+          alert(`Notice: Video file (${(file.size / (1024 * 1024)).toFixed(1)} MB) exceeds serverless hosting limit (4.5 MB).\n\nPlease upload a compressed MP4 video under 4.5 MB or paste your Instagram Reel / YouTube Shorts URL directly into the field.`);
+          setUploadingKey(null);
+          e.target.value = '';
+          return;
+        }
       }
 
       const formData = new FormData();
@@ -513,6 +597,8 @@ export default function FeaturedWorkSection() {
       setYoutubeShorts(PORTFOLIO_CONFIG.youtubeShorts);
       setGoogleDriveUrl(PORTFOLIO_CONFIG.googleDriveUrl);
       setCommercialDesigns(PORTFOLIO_CONFIG.commercialDesigns);
+      setWebProjects(PORTFOLIO_CONFIG.webProjects || []);
+      setEditWebProjects(PORTFOLIO_CONFIG.webProjects || []);
       setLinkedinProfileUrl(PORTFOLIO_CONFIG.linkedinProfileUrl || 'https://www.linkedin.com/');
       setWhatsappUrl(PORTFOLIO_CONFIG.whatsappUrl);
       setShowAdminModal(false);
@@ -1110,7 +1196,7 @@ export default function FeaturedWorkSection() {
           )}
 
           {/* ================================================================
-              VIEW 4 (NEW): WEB PROJECTS (2-3 LIVE BUILDS & CLIENT FUNNELS)
+              VIEW 4: WEB PROJECTS (2 LIVE BUILDS - SCALED DESKTOP IFRAME PREVIEWS)
               ================================================================ */}
           {activeTab === 'web' && (
             <div className="space-y-8">
@@ -1122,96 +1208,116 @@ export default function FeaturedWorkSection() {
                   </div>
                   <div>
                     <h3 className="font-display font-bold text-sm sm:text-base text-white">
-                      Selected Web Projects &amp; Conversion Funnels
+                      Live Web Builds &amp; Conversion Portals (2 Live Implementations)
                     </h3>
                     <p className="text-xs text-metallic">
-                      Secondary value-add: high-speed conversion websites and client pitch portals built to support advertising campaigns.
+                      High-converting web portals built with Python, Django &amp; modern frontends to convert Meta ad traffic into booked clients.
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-2 self-start sm:self-auto">
-                  <span className="text-[10px] font-mono px-3 py-1 rounded-full bg-white/5 border border-white/10 text-metallic">
-                    Python • Lovable • Bolt.new
+                  <span className="text-[10px] font-mono px-3 py-1 rounded-full bg-crimson/10 border border-crimson/30 text-crimson font-bold">
+                    2 Live Interactive Previews
                   </span>
                 </div>
               </div>
 
-              {/* 3-Column Web Project Cards Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {(PORTFOLIO_CONFIG.webProjects || []).map((project) => (
+              {/* 2-Column Responsive Web Project Cards */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-7">
+                {webProjects.map((project, idx) => (
                   <div
-                    key={project.id}
-                    className="rounded-2xl bg-[#111115] border border-white/10 hover:border-crimson/60 transition-all duration-300 flex flex-col justify-between overflow-hidden group shadow-lg studio-sheen-container card-elevation-hover"
+                    key={project.id || idx}
+                    className="rounded-2xl bg-[#111115] border border-white/10 hover:border-crimson/60 transition-all duration-300 flex flex-col justify-between overflow-hidden shadow-2xl studio-sheen-container card-elevation-hover"
                   >
-                    {/* Top Preview Image Container */}
-                    <div className="relative w-full h-48 sm:h-52 bg-black/60 overflow-hidden border-b border-white/10">
-                      <Image
-                        src={project.previewImage}
-                        alt={project.title}
-                        fill
-                        className="object-cover object-top transition-transform duration-700 group-hover:scale-105 filter contrast-[1.03]"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#111115] via-transparent to-transparent" />
-                      
-                      {/* Top Badge */}
-                      <div className="absolute top-3 left-3 z-10">
-                        <span className="text-[10px] font-mono px-2.5 py-1 rounded-full bg-black/80 border border-crimson/40 text-crimson font-bold backdrop-blur-md">
-                          {project.badge}
+                    {/* Browser Chrome Window Header */}
+                    <div className="px-4 py-2.5 bg-[#0d0d12] border-b border-white/10 flex items-center justify-between gap-3 shrink-0">
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        <span className="w-2.5 h-2.5 rounded-full bg-[#EF4444]" />
+                        <span className="w-2.5 h-2.5 rounded-full bg-[#F59E0B]" />
+                        <span className="w-2.5 h-2.5 rounded-full bg-[#10B981]" />
+                      </div>
+
+                      {/* URL bar */}
+                      <div className="flex-1 max-w-sm mx-auto flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/60 border border-white/10 text-[11px] font-mono text-metallic truncate">
+                        <Lock className="w-3 h-3 text-emerald-400 shrink-0" />
+                        <span className="truncate text-white/90">{project.url.replace(/^https?:\/\//, '')}</span>
+                      </div>
+
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        <span className="inline-flex items-center gap-1 text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                          LIVE
                         </span>
                       </div>
                     </div>
 
-                    {/* Card Body */}
-                    <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
+                    {/* Scaled Live Desktop Browser Preview (Iframe) */}
+                    <ScaledDesktopIframe src={project.url} title={project.title} />
+
+                    {/* Card Content & Action Bar */}
+                    <div className="p-5 flex-1 flex flex-col justify-between space-y-4 bg-gradient-to-b from-[#111115] to-[#0d0d11]">
                       <div className="space-y-2">
-                        <div className="text-[10px] font-mono text-crimson uppercase tracking-wider font-semibold">
-                          {project.client}
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-crimson/15 border border-crimson/30 text-crimson font-bold uppercase tracking-wider">
+                            {project.badge || 'Live Web Build'}
+                          </span>
+                          <span className="text-[10px] font-mono text-metallic">
+                            Build 0{idx + 1}
+                          </span>
                         </div>
-                        <h4 className="font-display font-bold text-base sm:text-lg text-white group-hover:text-crimson transition-colors">
+                        <h4 className="font-display font-bold text-base sm:text-lg text-white">
                           {project.title}
                         </h4>
-                        <p className="text-xs text-metallic leading-relaxed line-clamp-3">
-                          {project.description}
-                        </p>
                       </div>
 
                       {/* Campaign / Business Goal */}
-                      <div className="p-3 rounded-xl bg-black/40 border border-white/5 space-y-1">
+                      <div className="p-3.5 rounded-xl bg-black/50 border border-white/5 space-y-1">
                         <span className="text-[9px] font-mono uppercase text-crimson font-bold tracking-wider block">
                           CAMPAIGN GOAL //
                         </span>
-                        <p className="text-[11px] text-metallic-light leading-snug">
+                        <p className="text-[11px] text-metallic-light leading-relaxed">
                           {project.goal}
                         </p>
                       </div>
 
                       {/* Tech Stack Pills */}
                       <div className="flex flex-wrap gap-1.5 pt-1">
-                        {project.techStack.map((tech, idx) => (
+                        {project.techStack.map((tech, tIdx) => (
                           <span
-                            key={idx}
-                            className="text-[9px] font-mono px-2 py-0.5 rounded bg-white/5 text-metallic-light border border-white/10"
+                            key={tIdx}
+                            className="text-[9px] font-mono px-2.5 py-1 rounded-md bg-white/5 text-white/90 border border-white/10"
                           >
                             {tech}
                           </span>
                         ))}
                       </div>
 
-                      {/* Result Note */}
-                      <div className="pt-3 border-t border-white/5 flex items-center justify-between text-[11px] text-metallic font-mono">
-                        <span className="truncate text-white/80">{project.results}</span>
+                      {/* Direct URL Input / Preview Bar */}
+                      <div className="p-2.5 rounded-xl bg-black/60 border border-white/10 flex items-center justify-between gap-2 text-xs">
+                        <div className="flex items-center gap-2 truncate text-metallic">
+                          <Globe className="w-3.5 h-3.5 text-crimson shrink-0" />
+                          <span className="font-mono text-[11px] truncate text-white/80">{project.url}</span>
+                        </div>
+                        <a
+                          href={project.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="shrink-0 text-[10px] font-mono text-crimson hover:underline inline-flex items-center gap-1"
+                        >
+                          Visit <ExternalLink className="w-3 h-3" />
+                        </a>
                       </div>
 
-                      {/* Action Button: Live Preview */}
+                      {/* Primary CTA Button */}
                       <a
                         href={project.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white/5 hover:bg-crimson text-white text-xs font-semibold tracking-wider uppercase border border-white/10 hover:border-crimson transition-all duration-200 group/btn shadow-sm"
+                        className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-crimson hover:bg-crimson-dark text-white text-xs font-bold tracking-wider uppercase shadow-crimson-subtle transition-all duration-200 group/btn"
                       >
-                        <span>Live Preview</span>
-                        <ArrowUpRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+                        <span>OPEN LIVE SITE</span>
+                        <ArrowUpRight className="w-4 h-4 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
                       </a>
                     </div>
                   </div>
@@ -1435,6 +1541,16 @@ export default function FeaturedWorkSection() {
                   3. Commercial Designs (3:4)
                 </button>
                 <button
+                  onClick={() => setAdminTab('web')}
+                  className={`px-4 py-2 rounded-xl text-xs font-bold tracking-wide transition-all ${
+                    adminTab === 'web'
+                      ? 'bg-crimson text-white shadow-crimson-subtle'
+                      : 'bg-white/5 text-metallic hover:text-white'
+                  }`}
+                >
+                  4. Web Projects (2 Live Builds)
+                </button>
+                <button
                   onClick={() => setAdminTab('platforms')}
                   className={`px-4 py-2 rounded-xl text-xs font-bold tracking-wide transition-all ${
                     adminTab === 'platforms'
@@ -1442,7 +1558,7 @@ export default function FeaturedWorkSection() {
                       : 'bg-white/5 text-metallic hover:text-white'
                   }`}
                 >
-                  4. Social Platforms (LinkedIn, WhatsApp...)
+                  5. Social Platforms (LinkedIn, WhatsApp...)
                 </button>
               </div>
 
@@ -1819,7 +1935,108 @@ export default function FeaturedWorkSection() {
                 </div>
               )}
 
-              {/* TAB 4 EDIT: SOCIAL PLATFORMS */}
+              {/* TAB 4 EDIT: WEB PROJECTS (2 LIVE BUILDS) */}
+              {adminTab === 'web' && (
+                <div className="space-y-6 max-h-[60vh] overflow-y-auto pr-2">
+                  <div className="p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1">
+                    <span className="text-xs font-mono font-bold text-crimson uppercase block">
+                      Live Web Builds // Desktop Iframe Previews:
+                    </span>
+                    <p className="text-[11px] text-metallic">
+                      Update the live URLs, titles, and campaign goals for the 2 website builds displayed in the showcase. The live iframes will update automatically.
+                    </p>
+                  </div>
+
+                  <div className="space-y-4">
+                    {editWebProjects.map((project, idx) => (
+                      <div
+                        key={project.id || idx}
+                        className="p-4 rounded-2xl bg-black/50 border border-white/10 space-y-3.5"
+                      >
+                        <div className="flex items-center justify-between pb-2 border-b border-white/5">
+                          <span className="text-xs font-mono font-bold text-crimson uppercase">
+                            Website Project 0{idx + 1}
+                          </span>
+                          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-metallic">
+                            ID: {project.id}
+                          </span>
+                        </div>
+
+                        {/* Title */}
+                        <div>
+                          <label className="text-[11px] font-mono text-white/90 font-bold block mb-1">
+                            Project Title
+                          </label>
+                          <input
+                            type="text"
+                            value={project.title}
+                            onChange={(e) => {
+                              const copy = [...editWebProjects];
+                              copy[idx].title = e.target.value;
+                              setEditWebProjects(copy);
+                            }}
+                            className="w-full px-3.5 py-2 rounded-xl bg-[#16161D] border border-white/10 focus:border-crimson focus:outline-none text-white text-xs font-mono"
+                          />
+                        </div>
+
+                        {/* Live URL */}
+                        <div>
+                          <label className="text-[11px] font-mono text-white/90 font-bold block mb-1">
+                            Live Website URL (Renders in Iframe)
+                          </label>
+                          <input
+                            type="url"
+                            value={project.url}
+                            onChange={(e) => {
+                              const copy = [...editWebProjects];
+                              copy[idx].url = e.target.value;
+                              setEditWebProjects(copy);
+                            }}
+                            placeholder="https://yourwebsite.com"
+                            className="w-full px-3.5 py-2 rounded-xl bg-[#16161D] border border-white/10 focus:border-crimson focus:outline-none text-white text-xs font-mono text-crimson"
+                          />
+                        </div>
+
+                        {/* Campaign Goal */}
+                        <div>
+                          <label className="text-[11px] font-mono text-white/90 font-bold block mb-1">
+                            Campaign / Business Goal
+                          </label>
+                          <textarea
+                            rows={2}
+                            value={project.goal}
+                            onChange={(e) => {
+                              const copy = [...editWebProjects];
+                              copy[idx].goal = e.target.value;
+                              setEditWebProjects(copy);
+                            }}
+                            className="w-full px-3.5 py-2 rounded-xl bg-[#16161D] border border-white/10 focus:border-crimson focus:outline-none text-white text-xs font-mono resize-none"
+                          />
+                        </div>
+
+                        {/* Badge */}
+                        <div>
+                          <label className="text-[11px] font-mono text-white/90 font-bold block mb-1">
+                            Badge Label
+                          </label>
+                          <input
+                            type="text"
+                            value={project.badge}
+                            onChange={(e) => {
+                              const copy = [...editWebProjects];
+                              copy[idx].badge = e.target.value;
+                              setEditWebProjects(copy);
+                            }}
+                            className="w-full px-3.5 py-2 rounded-xl bg-[#16161D] border border-white/10 focus:border-crimson focus:outline-none text-white text-xs font-mono"
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 5 EDIT: SOCIAL PLATFORMS */}
               {adminTab === 'platforms' && (
                 <div className="space-y-5 max-h-[60vh] overflow-y-auto pr-2">
                   <div className="p-4 rounded-2xl bg-black/40 border border-white/10 space-y-4">

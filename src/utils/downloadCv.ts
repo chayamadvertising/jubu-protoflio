@@ -19,8 +19,8 @@ export function handleCvDownload(e?: React.MouseEvent) {
 
   // Trigger download with CV name matching updated advertising agency resume
   const link = document.createElement('a');
-  link.href = PORTFOLIO_CONFIG.cvDownloadUrl;
-  link.download = 'Muhammed_Jubair_T_Ad_Agency_CV_150Plus.pdf';
+  link.href = PORTFOLIO_CONFIG.cvDownloadUrl || '/Muhammed_Jubair_T_CV_Updated.pdf';
+  link.download = 'Muhammed_Jubair_T_CV_Updated.pdf';
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);

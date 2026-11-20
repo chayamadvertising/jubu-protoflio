@@ -1,5 +1,5 @@
 // ====================================================================
-// QUICK-EDIT LINKS & ASSETS CONFIG (ADVERTISING AGENCY PORTFOLIO)
+// QUICK-EDIT LINKS & ASSETS CONFIG (PORTFOLIO ARCHIVE)
 // ====================================================================
 
 export interface ReelItem {
@@ -34,17 +34,13 @@ export interface CommercialDesignItem {
   aspect: string;
 }
 
-export interface WebProjectItem {
+export interface WebProjectLiveItem {
   id: number;
   title: string;
-  client: string;
-  goal: string;
-  description: string;
-  techStack: string[];
   url: string;
-  previewImage: string;
+  goal: string;
+  techStack: string[];
   badge: string;
-  results: string;
 }
 
 export interface PortfolioConfigType {
@@ -64,12 +60,20 @@ export interface PortfolioConfigType {
   };
   instagramProfileUrl: string;
   youtubeChannelUrl: string;
+  youtubeChannelCustomUrl: string;
   linkedinProfileUrl: string;
+  youtubeMetrics: {
+    channelName: string;
+    subscribers: string;
+    totalViews: string;
+    videoCount: string;
+    directUrl: string;
+  };
   instagramReels: ReelItem[];
   youtubeShorts: ReelItem[];
   youtubeVideos: VideoItem[];
   commercialDesigns: CommercialDesignItem[];
-  webProjects: WebProjectItem[];
+  webProjects: WebProjectLiveItem[];
   googleDriveProjects: DriveProjectItem[];
 }
 
@@ -81,11 +85,11 @@ export const ADMIN_CREDENTIALS = {
 export const PORTFOLIO_CONFIG: PortfolioConfigType = {
   name: "MUHAMMED JUBAIR T",
   role: "AI Commercial Video Producer | Performance Creative & Meta Ads Strategist",
-  whatsappUrl: "https://wa.me/918129418544?text=Hi%20Muhammed%20Jubair%2C%20I%20saw%20your%20Advertising%20Agency%20portfolio%20and%20want%20to%20discuss%20a%20project.",
+  whatsappUrl: "https://wa.me/918129418544?text=Hi%20Muhammed%20Jubair%2C%20I%20saw%20your%20portfolio%20and%20want%20to%20discuss%20a%20commercial%20ad%20project.",
   phone: "+91 8129418544",
   email: "jubujubair257@gmail.com",
   location: "Kerala, India",
-  cvDownloadUrl: "/Muhammed_Jubair_T_Ad_Agency_CV_150Plus.pdf",
+  cvDownloadUrl: "/Muhammed_Jubair_T_CV_Updated.pdf",
   googleDriveUrl: "https://drive.google.com/drive/home",
   metaAdsReportUrl: "/meta-ads/Chayam_Meta_Ads_Performance_Report.csv",
   photos: {
@@ -94,8 +98,16 @@ export const PORTFOLIO_CONFIG: PortfolioConfigType = {
     workflow: "/pose3-seated-executive.png"
   },
   instagramProfileUrl: "https://www.instagram.com/jb_ai_creations?utm_source=qr&stkn=MTloenk3OHdpczEyMg==",
-  youtubeChannelUrl: "https://www.youtube.com/@JBAiCreations",
+  youtubeChannelUrl: "https://youtube.com/@jbaicreations?si=AgkYT9OTHcIin3aU",
+  youtubeChannelCustomUrl: "https://youtube.com/@jbaicreations?si=AgkYT9OTHcIin3aU",
   linkedinProfileUrl: "https://www.linkedin.com/in/jbcreations6",
+  youtubeMetrics: {
+    channelName: "JB Ai creations6 (@JBAiCreations)",
+    subscribers: "1.6K+",
+    totalViews: "789,790+",
+    videoCount: "149 Videos",
+    directUrl: "https://youtube.com/@jbaicreations?si=AgkYT9OTHcIin3aU"
+  },
   instagramReels: [
     {
       id: 1,
@@ -196,38 +208,18 @@ export const PORTFOLIO_CONFIG: PortfolioConfigType = {
     {
       id: 1,
       title: "Chayam Advertising Agency Portal",
-      client: "Chayam Advertising & Media Agency",
-      goal: "Brand authority showcase and high-conversion client enquiry funnel.",
-      description: "Designed and engineered the full-stack web presence for Chayam Advertising, integrating interactive project galleries, brand credentials, and direct lead capture funnels.",
-      techStack: ["Next.js", "Tailwind CSS", "TypeScript", "Lovable"],
       url: "https://chayamadvertising.com",
-      previewImage: "/designs/design1.jpg",
-      badge: "Agency Web Portal",
-      results: "Sub-second load speeds & direct WhatsApp client qualification"
+      goal: "Agency brand authority & client booking portal with direct WhatsApp lead capture.",
+      techStack: ["Next.js", "Tailwind CSS", "Lovable", "TypeScript"],
+      badge: "Live Agency Portal"
     },
     {
       id: 2,
       title: "AI Commercial Director 3D Studio",
-      client: "Director Portfolio & Real-time Video CMS",
-      goal: "Zero-gravity interactive 3D studio portfolio with custom video management.",
-      description: "Built high-performance 3D portfolio featuring real-time video database CRUD, client-side canvas compression, and 60fps GPU-composited keyframe animations.",
-      techStack: ["Next.js 14", "Framer Motion", "TypeScript", "Tailwind"],
       url: "https://jubu-protoflio.vercel.app",
-      previewImage: "/designs/design2.jpg",
-      badge: "3D Studio & CMS",
-      results: "150+ video commercial showcase with on-the-spot admin uploads"
-    },
-    {
-      id: 3,
-      title: "Mukkam Regional Campaign Lead Funnel",
-      client: "Kerala Regional Brand Campaign",
-      goal: "High-CTR mobile landing page designed to convert targeted Meta Ads traffic.",
-      description: "Developed conversion-focused landing page paired with Facebook/Instagram video ads, featuring localized Malayalam messaging and frictionless one-tap WhatsApp chat onboarding.",
-      techStack: ["Python", "Bolt.new", "Tailwind CSS", "WhatsApp API"],
-      url: "https://chayamadvertising.com",
-      previewImage: "/designs/design3.jpg",
-      badge: "Meta Ads Funnel",
-      results: "342K+ Reach campaign funnel with lowest cost per lead"
+      goal: "Interactive 3D studio portfolio featuring real-time video database and 60fps GPU keyframes.",
+      techStack: ["Next.js 14", "Python & Django", "Framer Motion", "Tailwind CSS"],
+      badge: "3D Studio & CMS"
     }
   ],
   googleDriveProjects: [
@@ -249,19 +241,11 @@ export const PORTFOLIO_CONFIG: PortfolioConfigType = {
     },
     {
       id: 3,
-      title: "Client Pitch Decks & Visual Treatments",
-      category: "Canva & Google Slides",
-      description: "Full commercial treatment presentations, visual storyboards, and client strategy decks.",
-      format: "Pitch Decks (.PDF / Slides)",
-      badge: "Pitch Kits"
-    },
-    {
-      id: 4,
       title: "Multi-Shot Script Bibles & Prompt Blueprints",
-      category: "Prompt Engineering & VO Sync",
+      category: "Claude Scripting & Audio AI",
       description: "Base-image anchor blueprints, character seed consistency logs, and audio-synced Malayalam scripts.",
       format: "Prompt Guides & Docs",
-      badge: "Prompts & Scripts"
+      badge: "Scripts & Audio"
     }
   ]
 };
